@@ -10,13 +10,75 @@ public class GameBoard {
 
     static JFrame _frame = new JFrame("World of Sweets");
 
+    JPanel[][] squares = new JPanel[10][10];
+    LinkedList<JPanel> tileList = new LinkedList<>();
+
     public GameBoard() {
         create_board();
         initialize();
     }
 
     private void initialize() {
-        
+
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(Color.RED);
+        colors.add(Color.YELLOW);
+        colors.add(Color.BLUE);
+        colors.add(Color.GREEN);
+        colors.add(Color.ORANGE);
+
+
+        tileList.add(squares[1][0]);
+        tileList.add(squares[1][1]);
+        tileList.add(squares[2][1]);
+        tileList.add(squares[3][1]);
+        tileList.add(squares[4][1]);
+        tileList.add(squares[5][1]);
+        tileList.add(squares[6][1]);
+        tileList.add(squares[7][1]);
+        tileList.add(squares[8][1]);
+        tileList.add(squares[9][1]);
+        tileList.add(squares[9][2]);
+        tileList.add(squares[9][3]);
+        tileList.add(squares[8][3]);
+        tileList.add(squares[7][3]);
+        tileList.add(squares[6][3]);
+        tileList.add(squares[5][3]);
+        tileList.add(squares[4][3]);
+        tileList.add(squares[3][3]);
+        tileList.add(squares[2][3]);
+        tileList.add(squares[2][4]);
+        tileList.add(squares[2][5]);
+        tileList.add(squares[2][6]);
+        tileList.add(squares[2][7]);
+        tileList.add(squares[3][7]);
+        tileList.add(squares[4][7]);
+        tileList.add(squares[5][7]);
+        tileList.add(squares[5][6]);
+        tileList.add(squares[5][5]);
+        tileList.add(squares[6][5]);
+        tileList.add(squares[7][5]);
+        tileList.add(squares[7][6]);
+        tileList.add(squares[7][7]);
+        tileList.add(squares[7][8]);
+        tileList.add(squares[7][9]);
+
+        // Set first tile black
+        tileList.get(0).setBackground(Color.BLACK);
+
+        // cycle the rest of the colors
+        int colorCounter = 0;
+        for (int i = 1; i < tileList.size(); i++) {
+
+            if (colorCounter >= 5) {
+                colorCounter = 0;
+            }
+
+            tileList.get(i).setBackground(colors.get(colorCounter));
+            colorCounter++;
+        }
+
+
     }
 
     public Boolean create_board() {
@@ -37,7 +99,7 @@ public class GameBoard {
         GridLayout experimentLayout = new GridLayout(10, 10);
         MainPanel.setLayout(experimentLayout);
 
-        JPanel[][] squares = new JPanel[10][10];
+
 
         int rowCounter = 0;
         int rows = 0;

@@ -3,10 +3,12 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
-import java.text.*;
-import java.io.*;
+
 
 public class GameBoard {
+
+    private static final int WINDOW_HEIGHT = 1000;
+    private static final int WINDOW_WIDTH = 1000;
 
     static JFrame _frame = new JFrame("World of Sweets");
 
@@ -19,7 +21,7 @@ public class GameBoard {
     }
 
     private void initialize() {
-
+        // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);
         colors.add(Color.YELLOW);
@@ -28,6 +30,7 @@ public class GameBoard {
         colors.add(Color.ORANGE);
 
 
+        // Build the path of the game board
         tileList.add(squares[1][0]);
         tileList.add(squares[1][1]);
         tileList.add(squares[2][1]);
@@ -63,8 +66,10 @@ public class GameBoard {
         tileList.add(squares[7][8]);
         tileList.add(squares[7][9]);
 
+
         // Set first tile black
         tileList.get(0).setBackground(Color.BLACK);
+
 
         // cycle the rest of the colors
         int colorCounter = 0;
@@ -79,18 +84,28 @@ public class GameBoard {
         }
 
 
+        // Paint the remaining squares a gray background color
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (!tileList.contains(squares[i][j])) {
+                    squares[i][j].setBackground(Color.GRAY);
+                }
+            }
+        }
+
+
     }
 
-    public Boolean create_board() {
+    private void create_board() {
         // Center the frame
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - _frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - _frame.getHeight()) / 2);
+        System.out.println("Width is : " + dimension.getWidth());
+        int x = (int) (dimension.getWidth() / 2) - (WINDOW_WIDTH / 2);
+        int y = (int) (dimension.getHeight() / 2) - (WINDOW_HEIGHT / 2);
         _frame.setLocation(x, y);
 
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        _frame.setSize(1000, 1000);
-
+        _frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         JPanel MainPanel = new JPanel();
 
@@ -100,10 +115,10 @@ public class GameBoard {
         MainPanel.setLayout(experimentLayout);
 
 
-
         int rowCounter = 0;
         int rows = 0;
 
+        // Create all of the subpanels
         for (int i = 0; i < 100; i++) {
 
             JPanel sub = new JPanel();
@@ -123,20 +138,14 @@ public class GameBoard {
                 rows++;
             }
 
-            System.out.println("Adding square at row " + rows + ", col " + (i % 10));
+            // Place the subpanel into the 2d array
             squares[rows][i % 10] = sub;
-
 
             MainPanel.add(sub);
 
             rowCounter++;
         }
 
-        squares[1][1].setBackground(Color.green);
-
         _frame.setVisible(true);
-
-        return true;
     }
-
 }

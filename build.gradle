@@ -22,9 +22,3 @@ systemProperties System.getProperties()
 		//
 	}
 }
-
-task sequencehelp <<
-{
-  println "1. Print \"Integer Sequence Project\""
-  println "2. Print \"Given an integer n as an argument, displays Tri(n) and LC(n)\""
-}

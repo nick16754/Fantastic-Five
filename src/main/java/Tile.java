@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Tile {
 
@@ -10,6 +11,8 @@ public class Tile {
     JPanel panel;
 
     int xCoord, yCoord;
+
+    ArrayList<Piece> currentPieces = new ArrayList<>();
 
     // Constructor
     public Tile(JPanel p, int x, int y) {
@@ -19,10 +22,40 @@ public class Tile {
     }
 
     public void placePiece(Piece p) {
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(p.getLabel());
-
         currentPlayers++;
+        currentPieces.add(p);
+
+        refreshPanel();
+    }
+
+    public void refreshPanel() {
+        GridLayout g = generateLayout();
+
+        panel.removeAll();
+        panel.setLayout(g);
+
+        for (Piece p : currentPieces) {
+            panel.add(p.getLabel());
+        }
+    }
+
+    private GridLayout generateLayout() {
+        if (currentPlayers == 1) {
+            return new GridLayout(1,1);
+        } else if (currentPlayers == 2) {
+            return new GridLayout(1, 2);
+        } else if (currentPlayers >= 3) {
+            return new GridLayout(2, 2);
+        }
+
+        return null;
+    }
+
+    public void removePiece(Piece rm) {
+        currentPieces.remove(rm);
+        currentPlayers--;
+
+        refreshPanel();
     }
 
 

@@ -3,7 +3,7 @@ public class Player {
     private String playerName;
     private Piece piece;
 
-    int currentTile = 0;
+    private Tile currentTile;
 
 
     public Player(String s, Piece p) {
@@ -21,7 +21,7 @@ public class Player {
         return this.piece;
     }
 
-    public int getCurrentTile() {
+    public Tile getCurrentTile() {
         return currentTile;
     }
 
@@ -35,8 +35,14 @@ public class Player {
     }
 
     public void moveToTile(Tile p) {
+
+        // Check if the piece is already on a tile
+        if (currentTile != null) {
+            currentTile.removePiece(piece);
+        }
+
         p.placePiece(piece);
-        currentTile = 0;
+        currentTile = p;
     }
 
 }

@@ -22,6 +22,12 @@ public class GameBoard {
         Player one = new Player("Player 1", new Piece("placeholder_piece.png"));
         playerList.add(one);
 
+        Player two = new Player("Player 2", new Piece("placeholder_piece.png"));
+        playerList.add(two);
+
+        Player three = new Player("Player 3", new Piece("placeholder_piece.png"));
+        playerList.add(three);
+
         create_board();
         initialize();
     }

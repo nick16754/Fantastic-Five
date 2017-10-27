@@ -16,7 +16,7 @@ public class GameBoard {
     }
 
     private void initialize() {
-        
+
     }
 
     public Boolean create_board() {
@@ -45,7 +45,7 @@ public class GameBoard {
         for (int i = 0; i < 100; i++) {
 
             JPanel sub = new JPanel();
-//            sub.setBorder(BorderFactory.createLineBorder(Color.black));
+  //          sub.setBorder(BorderFactory.createLineBorder(Color.black));
 //            sub.setBackground(Color.red);
             sub.setSize(100, 100);
             sub.addMouseListener(new MouseAdapter() {

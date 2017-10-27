@@ -10,9 +10,12 @@ public class GameBoard {
     private static final int WINDOW_HEIGHT = 1000;
     private static final int WINDOW_WIDTH = 1000;
 
+    private static final int TILES_X = 10;
+    private static final int TILES_Y = 10;
+
     static JFrame _frame = new JFrame("World of Sweets");
 
-    static JPanel[][] squares = new JPanel[10][10];
+    static JPanel[][] squares = new JPanel[TILES_X][TILES_Y];
     static LinkedList<Tile> tileList = new LinkedList<>();
 
     static ArrayList<Player> playerList = new ArrayList<>();
@@ -137,7 +140,7 @@ public class GameBoard {
 
         _frame.add(MainPanel);
 
-        GridLayout experimentLayout = new GridLayout(10, 10);
+        GridLayout experimentLayout = new GridLayout(TILES_X, TILES_Y);
         MainPanel.setLayout(experimentLayout);
 
 
@@ -145,12 +148,12 @@ public class GameBoard {
         int rows = 0;
 
         // Create all of the subpanels
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < (TILES_X*TILES_Y); i++) {
 
             JPanel sub = new JPanel();
-//            sub.setBorder(BorderFactory.createLineBorder(Color.black));
+            sub.setBorder(BorderFactory.createLineBorder(Color.black));
 //            sub.setBackground(Color.red);
-            sub.setSize(100, 100);
+            sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
             sub.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -159,13 +162,13 @@ public class GameBoard {
             });
 
 
-            if (rowCounter >= 10) {
+            if (rowCounter >= TILES_X) {
                 rowCounter = 0;
                 rows++;
             }
 
             // Place the subpanel into the 2d array
-            squares[rows][i % 10] = sub;
+            squares[rows][i % TILES_X] = sub;
 
             MainPanel.add(sub);
 

@@ -8,6 +8,7 @@ public class Piece {
 
     JLabel label;
 
+    // Constructor
     public Piece(String pieceString) {
         try {
             BufferedImage image = ImageIO.read(new File("src/assets/"+pieceString));
@@ -18,6 +19,8 @@ public class Piece {
         }
     }
 
+
+    // Accessors
     public JLabel getLabel() {
         return label;
     }

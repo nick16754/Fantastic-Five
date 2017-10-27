@@ -19,6 +19,8 @@ public class GameBoard {
     static LinkedList<Tile> tileList = new LinkedList<>();
     static ArrayList<Player> playerList = new ArrayList<>();
 
+
+    // Constructor
     public GameBoard() {
 
         Player one = new Player("Player 1", new Piece("placeholder_piece.png"));
@@ -36,6 +38,7 @@ public class GameBoard {
         one.moveToTile(tileList.get(5));
         two.moveToTile(tileList.get(5));
     }
+
 
     private static void initialize() {
         // Initialize color pattern for game board
@@ -150,7 +153,7 @@ public class GameBoard {
         for (int i = 0; i < (TILES_X*TILES_Y); i++) {
 
             JPanel sub = new JPanel();
-            sub.setBorder(BorderFactory.createLineBorder(Color.black));
+//            sub.setBorder(BorderFactory.createLineBorder(Color.black));
 //            sub.setBackground(Color.red);
             sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
             sub.addMouseListener(new MouseAdapter() {

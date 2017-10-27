@@ -5,10 +5,22 @@ public class Player {
 
     private Tile currentTile;
 
-
+    // Constructor
     public Player(String s, Piece p) {
         this.playerName = s;
         this.piece = p;
+    }
+
+    // Actions
+    public void moveToTile(Tile t) {
+
+        // Check if the piece is already on a tile
+        if (currentTile != null) {
+            currentTile.removePiece(piece);
+        }
+
+        t.placePiece(piece);
+        currentTile = t;
     }
 
 
@@ -25,6 +37,7 @@ public class Player {
         return currentTile;
     }
 
+
     // Mutators
     public void setName(String s) {
         this.playerName = s;
@@ -33,16 +46,4 @@ public class Player {
     public void setPiece(Piece s) {
         this.piece = s;
     }
-
-    public void moveToTile(Tile t) {
-
-        // Check if the piece is already on a tile
-        if (currentTile != null) {
-            currentTile.removePiece(piece);
-        }
-
-        t.placePiece(piece);
-        currentTile = t;
-    }
-
 }

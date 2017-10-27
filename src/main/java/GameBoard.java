@@ -21,8 +21,6 @@ public class GameBoard {
     }
 
     private void initialize() {
-<<<<<<< HEAD
-=======
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);
@@ -84,6 +82,13 @@ public class GameBoard {
             tileList.get(i).setBackground(colors.get(colorCounter));
             colorCounter++;
         }
+        Token t = new Token();
+        tileList.get(0).add(t);
+        Token t2 = new Token();
+        tileList.get(0).add(t2);
+
+
+
 
 
         // Paint the remaining squares a gray background color
@@ -94,8 +99,6 @@ public class GameBoard {
                 }
             }
         }
-
->>>>>>> 42e1f065f5497f3aba8bb18784764b9417eacb05
 
     }
 

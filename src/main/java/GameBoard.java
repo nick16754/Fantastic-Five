@@ -15,9 +15,8 @@ public class GameBoard {
 
     static JFrame _frame = new JFrame("World of Sweets");
 
-    static JPanel[][] squares = new JPanel[TILES_X][TILES_Y];
+    static JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
     static LinkedList<Tile> tileList = new LinkedList<>();
-
     static ArrayList<Player> playerList = new ArrayList<>();
 
     public GameBoard() {
@@ -50,40 +49,40 @@ public class GameBoard {
 
         // Build the path of the game board
         //todo: clean this up
-        tileList.add(new Tile(squares[1][0], 1, 0));
-        tileList.add(new Tile(squares[1][1], 1, 1));
-        tileList.add(new Tile(squares[2][1], 2, 1));
-        tileList.add(new Tile(squares[3][1], 3, 1));
-        tileList.add(new Tile(squares[4][1], 4, 1));
-        tileList.add(new Tile(squares[5][1], 5, 1));
-        tileList.add(new Tile(squares[6][1], 6, 1));
-        tileList.add(new Tile(squares[7][1], 7, 1));
-        tileList.add(new Tile(squares[8][1], 8, 1));
-        tileList.add(new Tile(squares[9][1], 9, 1));
-        tileList.add(new Tile(squares[9][2], 9, 2));
-        tileList.add(new Tile(squares[9][3], 9, 3));
-        tileList.add(new Tile(squares[8][3], 8, 3));
-        tileList.add(new Tile(squares[7][3], 7, 3));
-        tileList.add(new Tile(squares[6][3], 6, 3));
-        tileList.add(new Tile(squares[5][3], 5, 3));
-        tileList.add(new Tile(squares[4][3], 4, 3));
-        tileList.add(new Tile(squares[3][3], 3, 3));
-        tileList.add(new Tile(squares[2][3], 2, 3));
-        tileList.add(new Tile(squares[2][4], 2, 4));
-        tileList.add(new Tile(squares[2][5], 2, 5));
-        tileList.add(new Tile(squares[2][6], 2, 6));
-        tileList.add(new Tile(squares[2][7], 2, 7));
-        tileList.add(new Tile(squares[3][7], 3, 7));
-        tileList.add(new Tile(squares[4][7], 4, 7));
-        tileList.add(new Tile(squares[5][7], 5, 7));
-        tileList.add(new Tile(squares[5][6], 5, 6));
-        tileList.add(new Tile(squares[5][5], 5, 5));
-        tileList.add(new Tile(squares[6][5], 6, 5));
-        tileList.add(new Tile(squares[7][5], 7, 5));
-        tileList.add(new Tile(squares[7][6], 7, 6));
-        tileList.add(new Tile(squares[7][7], 7, 7));
-        tileList.add(new Tile(squares[7][8], 7, 8));
-        tileList.add(new Tile(squares[7][9], 7, 9));
+        tileList.add(new Tile(tiles[1][0], 1, 0));
+        tileList.add(new Tile(tiles[1][1], 1, 1));
+        tileList.add(new Tile(tiles[2][1], 2, 1));
+        tileList.add(new Tile(tiles[3][1], 3, 1));
+        tileList.add(new Tile(tiles[4][1], 4, 1));
+        tileList.add(new Tile(tiles[5][1], 5, 1));
+        tileList.add(new Tile(tiles[6][1], 6, 1));
+        tileList.add(new Tile(tiles[7][1], 7, 1));
+        tileList.add(new Tile(tiles[8][1], 8, 1));
+        tileList.add(new Tile(tiles[9][1], 9, 1));
+        tileList.add(new Tile(tiles[9][2], 9, 2));
+        tileList.add(new Tile(tiles[9][3], 9, 3));
+        tileList.add(new Tile(tiles[8][3], 8, 3));
+        tileList.add(new Tile(tiles[7][3], 7, 3));
+        tileList.add(new Tile(tiles[6][3], 6, 3));
+        tileList.add(new Tile(tiles[5][3], 5, 3));
+        tileList.add(new Tile(tiles[4][3], 4, 3));
+        tileList.add(new Tile(tiles[3][3], 3, 3));
+        tileList.add(new Tile(tiles[2][3], 2, 3));
+        tileList.add(new Tile(tiles[2][4], 2, 4));
+        tileList.add(new Tile(tiles[2][5], 2, 5));
+        tileList.add(new Tile(tiles[2][6], 2, 6));
+        tileList.add(new Tile(tiles[2][7], 2, 7));
+        tileList.add(new Tile(tiles[3][7], 3, 7));
+        tileList.add(new Tile(tiles[4][7], 4, 7));
+        tileList.add(new Tile(tiles[5][7], 5, 7));
+        tileList.add(new Tile(tiles[5][6], 5, 6));
+        tileList.add(new Tile(tiles[5][5], 5, 5));
+        tileList.add(new Tile(tiles[6][5], 6, 5));
+        tileList.add(new Tile(tiles[7][5], 7, 5));
+        tileList.add(new Tile(tiles[7][6], 7, 6));
+        tileList.add(new Tile(tiles[7][7], 7, 7));
+        tileList.add(new Tile(tiles[7][8], 7, 8));
+        tileList.add(new Tile(tiles[7][9], 7, 9));
 
 
         // Set first tile black
@@ -103,12 +102,12 @@ public class GameBoard {
         }
 
 
-        // Paint the remaining squares a gray background color
+        // Paint the remaining tiles a gray background color
         //todo: Fix this
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
 //                if ((!validX.contains(i)) && (!validY.contains(j))) {
-//                    squares[i][j].setBackground(Color.BLUE);
+//                    tiles[i][j].setBackground(Color.BLUE);
 //                    System.out.println("x"+i+",y"+j);
 //
 //                }
@@ -168,7 +167,7 @@ public class GameBoard {
             }
 
             // Place the subpanel into the 2d array
-            squares[rows][i % TILES_X] = sub;
+            tiles[rows][i % TILES_X] = sub;
 
             MainPanel.add(sub);
 

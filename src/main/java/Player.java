@@ -34,15 +34,15 @@ public class Player {
         this.piece = s;
     }
 
-    public void moveToTile(Tile p) {
+    public void moveToTile(Tile t) {
 
         // Check if the piece is already on a tile
         if (currentTile != null) {
             currentTile.removePiece(piece);
         }
 
-        p.placePiece(piece);
-        currentTile = p;
+        t.placePiece(piece);
+        currentTile = t;
     }
 
 }

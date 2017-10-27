@@ -37,6 +37,8 @@ public class Tile {
         for (Piece p : currentPieces) {
             panel.add(p.getLabel());
         }
+
+        GameBoard.refresh();
     }
 
     private GridLayout generateLayout() {

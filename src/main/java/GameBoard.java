@@ -12,10 +12,10 @@ public class GameBoard {
 
     static JFrame _frame = new JFrame("World of Sweets");
 
-    JPanel[][] squares = new JPanel[10][10];
-    LinkedList<Tile> tileList = new LinkedList<>();
+    static JPanel[][] squares = new JPanel[10][10];
+    static LinkedList<Tile> tileList = new LinkedList<>();
 
-    ArrayList<Player> playerList = new ArrayList<>();
+    static ArrayList<Player> playerList = new ArrayList<>();
 
     public GameBoard() {
 
@@ -30,9 +30,12 @@ public class GameBoard {
 
         create_board();
         initialize();
+
+        one.moveToTile(tileList.get(5));
+        two.moveToTile(tileList.get(5));
     }
 
-    private void initialize() {
+    private static void initialize() {
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);
@@ -120,7 +123,7 @@ public class GameBoard {
 
     }
 
-    private void create_board() {
+    private static void create_board() {
         // Center the frame
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) (dimension.getWidth() / 2) - (WINDOW_WIDTH / 2);
@@ -170,5 +173,9 @@ public class GameBoard {
         }
 
         _frame.setVisible(true);
+    }
+
+    public static void refresh() {
+        _frame.validate();
     }
 }

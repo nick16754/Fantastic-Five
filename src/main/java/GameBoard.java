@@ -8,7 +8,7 @@ import java.util.*;
 public class GameBoard {
 
     private static final int WINDOW_HEIGHT = 1000;
-    private static final int WINDOW_WIDTH = 1000;
+    private static final int WINDOW_WIDTH = 1400;
 
     private static final int TILES_X = 10;
     private static final int TILES_Y = 10;
@@ -36,6 +36,11 @@ public class GameBoard {
         initialize();
 
         one.moveToTile(tileList.get(5));
+        try {
+            Thread.sleep(3000);
+        } catch (Exception e) {
+
+        }
         two.moveToTile(tileList.get(5));
     }
 
@@ -146,7 +151,26 @@ public class GameBoard {
         _frame.add(MainPanel);
 
         GridLayout experimentLayout = new GridLayout(TILES_X, TILES_Y);
-        MainPanel.setLayout(experimentLayout);
+        MainPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+
+        JPanel subPanel = new JPanel();
+        subPanel.setLayout(experimentLayout);
+        subPanel.setSize(1000, 1000);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 0.6;
+        c.weighty = 1;
+        MainPanel.add(subPanel,c);
+
+        JPanel cardPanel = new JPanel();
+        cardPanel.setBackground(Color.DARK_GRAY);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.weightx = 0.4;
+        c.weighty = 1;
+        MainPanel.add(cardPanel,c);
 
 
         int rowCounter = 0;
@@ -175,7 +199,7 @@ public class GameBoard {
             // Place the subpanel into the 2d array
             tiles[rows][i % TILES_X] = sub;
 
-            MainPanel.add(sub);
+            subPanel.add(sub);
 
             rowCounter++;
         }

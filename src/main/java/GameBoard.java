@@ -25,8 +25,13 @@ public class GameBoard extends JPanel{
 
 
     // Constructor
-    public GameBoard() {
+    public GameBoard(int players) {
 
+        for (int i = 1; i < players+1; i++)
+        {
+          playerList.add(new Player(String.format("Player %s",String.valueOf(i)), new Piece("placeholder_piece.png")));
+        }
+        /*
         Player one = new Player("Player 1", new Piece("placeholder_piece.png"));
         playerList.add(one);
 
@@ -35,10 +40,11 @@ public class GameBoard extends JPanel{
 
         Player three = new Player("Player 3", new Piece("placeholder_piece.png"));
         playerList.add(three);
-
+        */
+        System.out.println(Arrays.toString(playerList.toArray()));
         create_board();
         initialize();
-
+        /*
         one.moveToTile(tileList.get(5));
         try {
             Thread.sleep(3000);
@@ -46,6 +52,7 @@ public class GameBoard extends JPanel{
 
         }
         two.moveToTile(tileList.get(5));
+        */
     }
 
 

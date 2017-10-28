@@ -3,9 +3,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.io.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 
-public class GameBoard {
+
+public class GameBoard extends JPanel{
 
     private static final int WINDOW_HEIGHT = 1000;
     private static final int WINDOW_WIDTH = 1400;
@@ -91,15 +95,24 @@ public class GameBoard {
         tileList.add(new Tile(tiles[7][7], 7, 7));
         tileList.add(new Tile(tiles[7][8], 7, 8));
         tileList.add(new Tile(tiles[7][9], 7, 9));
+        try {
+            BufferedImage image = ImageIO.read(new File("src/assets/End_tile.jpg"));
+            JPanel pane = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, null);
+            }
+        };
 
 
-        // Set first tile black
-        tileList.get(0).getPanel().setBackground(Color.BLACK);
-
-
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        //tileList.get(i).getPanel().setBackground();
         // cycle the rest of the colors
         int colorCounter = 0;
-        for (int i = 1; i < tileList.size(); i++) {
+        for (int i = 1; i < tileList.size() - 1; i++) {
 
             if (colorCounter >= 5) {
                 colorCounter = 0;
@@ -178,6 +191,46 @@ public class GameBoard {
 
         // Create all of the subpanels
         for (int i = 0; i < (TILES_X*TILES_Y); i++) {
+            if (i ==79 || i == 10)
+            {
+              try {
+                  BufferedImage image = ImageIO.read(new File(photo_input(i)));
+                  JPanel sub = new JPanel() {
+                  @Override
+                  protected void paintComponent(Graphics g) {
+                      super.paintComponent(g);
+                      g.drawImage(image, 0, 0, null);
+                    }
+              };
+
+              sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
+              sub.addMouseListener(new MouseAdapter() {
+                  @Override
+                  public void mousePressed(MouseEvent e) {
+                      System.out.println("Click");
+                  }
+              });
+
+
+              if (rowCounter >= TILES_X) {
+                  rowCounter = 0;
+                  rows++;
+              }
+
+              // Place the subpanel into the 2d array
+              tiles[rows][i % TILES_X] = sub;
+
+              subPanel.add(sub);
+
+              rowCounter++;
+
+              } catch(Exception e) {
+                  e.printStackTrace();
+              }
+
+
+            }
+            else{
 
             JPanel sub = new JPanel();
   //          sub.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -202,6 +255,7 @@ public class GameBoard {
             subPanel.add(sub);
 
             rowCounter++;
+          }
         }
 
         _frame.setVisible(true);
@@ -209,5 +263,13 @@ public class GameBoard {
 
     public static void refresh() {
         _frame.validate();
+    }
+    public static String photo_input(int i){
+      if (i == 10)
+      {
+        return "src/assets/star-for-walker-th.png";
+      }
+      else
+        return "src/assets/house-th.png";
     }
 }

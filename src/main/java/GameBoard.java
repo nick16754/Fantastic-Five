@@ -22,6 +22,7 @@ public class GameBoard extends JPanel {
     static LinkedList<Tile> tileList = new LinkedList<>();
     static ArrayList<Player> playerList = new ArrayList<>();
 
+    private static WoSDeck cardDeck = new WoSDeck();
 
     // Constructor
     public GameBoard(int players) {
@@ -226,6 +227,51 @@ public class GameBoard extends JPanel {
         }
 
         _frame.setVisible(true);
+
+        addDeck(cardPanel);
+    }
+
+    private static void addDeck(JPanel cardPanel){
+      cardPanel.setLayout(null);
+      JPanel deck = new JPanel();
+      deck.setBackground(Color.WHITE);
+
+      JPanel card = new JPanel();
+      card.setBackground(Color.WHITE);
+
+      deck.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mousePressed(MouseEvent e) {
+              System.out.println(cardDeck.getSize());
+              System.out.println("Card Drawn");
+              WoSCard newCard = cardDeck.drawCard();
+              if(newCard.getColor().equals("red")){
+                card.setBackground(Color.RED);
+              }
+              else if(newCard.getColor().equals("yellow")){
+                card.setBackground(Color.YELLOW);
+              }
+              else if(newCard.getColor().equals("blue")){
+                card.setBackground(Color.BLUE);
+              }
+              else if(newCard.getColor().equals("green")){
+                card.setBackground(Color.GREEN);
+              }
+              else if(newCard.getColor().equals("orange")){
+                card.setBackground(Color.ORANGE);
+              }
+
+              if(newCard.getDoubleCard())
+              {
+                JPanel doubleText = new JPanel();
+              }
+          }
+      });
+
+      deck.setBounds(50, 100, 200, 100);
+      card.setBounds(50, 250, 200, 100);
+      cardPanel.add(deck);
+      cardPanel.add(card);
     }
 
     public static void refresh() {

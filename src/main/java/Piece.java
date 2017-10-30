@@ -11,10 +11,10 @@ public class Piece {
     // Constructor
     public Piece(String pieceString) {
         try {
-            BufferedImage image = ImageIO.read(new File("src/assets/"+pieceString));
-             label = new JLabel(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT)));
+            BufferedImage image = ImageIO.read(new File("src/assets/" + pieceString));
+            label = new JLabel(new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT)));
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -24,7 +24,6 @@ public class Piece {
     public JLabel getLabel() {
         return label;
     }
-
 
 
 }

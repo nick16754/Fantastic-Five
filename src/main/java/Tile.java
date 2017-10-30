@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Tile extends JPanel{
+public class Tile extends JPanel {
 
     int currentPlayers = 0;
     JPanel panel;

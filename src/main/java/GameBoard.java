@@ -8,8 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 
-
-public class GameBoard extends JPanel{
+public class GameBoard extends JPanel {
 
     private static final int WINDOW_HEIGHT = 1000;
     private static final int WINDOW_WIDTH = 1400;
@@ -26,10 +25,9 @@ public class GameBoard extends JPanel{
 
     // Constructor
     public GameBoard(int players) {
-        for (int i = 1; i < players+1; i++)
-        {
-          String player_name = String.format("Player %s", String.valueOf(i));
-          playerList.add(new Player(player_name, new Piece("placeholder_piece.png")));
+        for (int i = 1; i < players + 1; i++) {
+            String player_name = String.format("Player %s", String.valueOf(i));
+            playerList.add(new Player(player_name, new Piece("placeholder_piece.png")));
         }
         create_board();
         initialize();
@@ -97,9 +95,6 @@ public class GameBoard extends JPanel{
         }
 
 
-
-
-
         // Paint the remaining tiles a gray background color
         //todo: Fix this
         for (int i = 0; i < 10; i++) {
@@ -149,7 +144,7 @@ public class GameBoard extends JPanel{
         c.gridy = 0;
         c.weightx = 0.6;
         c.weighty = 1;
-        MainPanel.add(subPanel,c);
+        MainPanel.add(subPanel, c);
 
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
@@ -157,79 +152,77 @@ public class GameBoard extends JPanel{
         c.gridy = 0;
         c.weightx = 0.4;
         c.weighty = 1;
-        MainPanel.add(cardPanel,c);
+        MainPanel.add(cardPanel, c);
 
 
         int rowCounter = 0;
         int rows = 0;
 
         // Create all of the subpanels
-        for (int i = 0; i < (TILES_X*TILES_Y); i++) {
-            if (i ==79 || i == 10)
-            {
-              try {
-                  BufferedImage image = ImageIO.read(new File(photo_input(i)));
-                  JPanel sub = new JPanel() {
-                  @Override
-                  protected void paintComponent(Graphics g) {
-                      super.paintComponent(g);
-                      g.drawImage(image, 0, 0, 100,70, null);
+        for (int i = 0; i < (TILES_X * TILES_Y); i++) {
+            if (i == 79 || i == 10) {
+                try {
+                    BufferedImage image = ImageIO.read(new File(photo_input(i)));
+                    JPanel sub = new JPanel() {
+                        @Override
+                        protected void paintComponent(Graphics g) {
+                            super.paintComponent(g);
+                            g.drawImage(image, 0, 0, 100, 70, null);
+                        }
+                    };
+
+                    sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
+                    sub.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            System.out.println("Click");
+                        }
+                    });
+
+
+                    if (rowCounter >= TILES_X) {
+                        rowCounter = 0;
+                        rows++;
                     }
-              };
 
-              sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
-              sub.addMouseListener(new MouseAdapter() {
-                  @Override
-                  public void mousePressed(MouseEvent e) {
-                      System.out.println("Click");
-                  }
-              });
+                    // Place the subpanel into the 2d array
+                    tiles[rows][i % TILES_X] = sub;
 
+                    subPanel.add(sub);
 
-              if (rowCounter >= TILES_X) {
-                  rowCounter = 0;
-                  rows++;
-              }
+                    rowCounter++;
 
-              // Place the subpanel into the 2d array
-              tiles[rows][i % TILES_X] = sub;
-
-              subPanel.add(sub);
-
-              rowCounter++;
-
-              } catch(Exception e) {
-                  e.printStackTrace();
-              }
-
-
-            }
-            else{
-
-            JPanel sub = new JPanel();
-  //          sub.setBorder(BorderFactory.createLineBorder(Color.black));
-//            sub.setBackground(Color.red);
-            sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
-            sub.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    System.out.println("Click");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
 
 
-            if (rowCounter >= TILES_X) {
-                rowCounter = 0;
-                rows++;
+            } else {
+
+                JPanel sub = new JPanel();
+                //          sub.setBorder(BorderFactory.createLineBorder(Color.black));
+//            sub.setBackground(Color.red);
+                sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
+                sub.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        System.out.println("Click");
+                    }
+                });
+
+
+                if (rowCounter >= TILES_X) {
+                    rowCounter = 0;
+                    rows++;
+                }
+
+                // Place the subpanel into the 2d array
+                tiles[rows][i % TILES_X] = sub;
+
+                subPanel.add(sub);
+
+                rowCounter++;
             }
-
-            // Place the subpanel into the 2d array
-            tiles[rows][i % TILES_X] = sub;
-
-            subPanel.add(sub);
-
-            rowCounter++;
-          }
         }
 
         _frame.setVisible(true);
@@ -238,16 +231,15 @@ public class GameBoard extends JPanel{
     public static void refresh() {
         _frame.validate();
     }
-    public static String photo_input(int i){
-      if (i == 10)
-      {
-        return "src/assets/star-for-walker-th.png";
-      }
-      else
-        return "src/assets/house-th.png";
+
+    public static String photo_input(int i) {
+        if (i == 10) {
+            return "src/assets/star-for-walker-th.png";
+        } else
+            return "src/assets/house-th.png";
     }
-    public void test_quit()
-    {
-      System.exit(0);
+
+    public void test_quit() {
+        System.exit(0);
     }
 }

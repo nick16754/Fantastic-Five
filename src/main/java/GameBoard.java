@@ -154,6 +154,7 @@ public class GameBoard extends JPanel {
 
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
+        cardPanel.setSize(400,1000);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.4;
@@ -240,14 +241,25 @@ public class GameBoard extends JPanel {
       cardPanel.setLayout(null);
       JPanel deck = new JPanel();
       deck.setBackground(Color.WHITE);
+      deck.setLayout(new GridBagLayout());
 
       JPanel card = new JPanel();
       card.setBackground(Color.WHITE);
+      card.setLayout(new GridBagLayout());
+
+      JLabel deckLabel = new JLabel("Deck");
+      deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
+      deck.add(deckLabel);
+
+      JLabel doubleText = new JLabel("2x");
+      doubleText.setFont(doubleText.getFont().deriveFont(64f));
+      card.add(doubleText);
+      doubleText.setVisible(false);
 
       deck.addMouseListener(new MouseAdapter() {
           @Override
           public void mousePressed(MouseEvent e) {
-              System.out.println(cardDeck.getSize());
+              //System.out.println(cardDeck.getSize());
               System.out.println("Card Drawn");
               WoSCard newCard = cardDeck.drawCard();
               if(newCard.getColor().equals("red")){
@@ -266,13 +278,15 @@ public class GameBoard extends JPanel {
                 card.setBackground(Color.ORANGE);
               }
 
-              if(newCard.getDoubleCard())
-              {
-                JPanel doubleText = new JPanel();
+              if(newCard.getDoubleCard()){
+                doubleText.setVisible(true);
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getColor());
+              }
+              else{
+                doubleText.setVisible(false);
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
               }
 
-
-              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew " + newCard.getColor());
               // Cycle Turns
               currentTurn++;
               if (currentTurn > numberOfPlayers) {

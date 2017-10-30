@@ -280,13 +280,13 @@ public class GameBoard extends JPanel {
 
               if(newCard.getDoubleCard()){
                 doubleText.setVisible(true);
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getColor());
               }
               else{
                 doubleText.setVisible(false);
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
               }
 
-
-              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew " + newCard.getColor());
               // Cycle Turns
               currentTurn++;
               if (currentTurn > numberOfPlayers) {

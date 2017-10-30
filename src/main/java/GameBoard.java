@@ -16,6 +16,9 @@ public class GameBoard extends JPanel {
     private static final int TILES_X = 10;
     private static final int TILES_Y = 10;
 
+    private static int currentTurn = 1;
+    private static int numberOfPlayers;
+
     static JFrame _frame = new JFrame("World of Sweets");
 
     static JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
@@ -26,6 +29,8 @@ public class GameBoard extends JPanel {
 
     // Constructor
     public GameBoard(int players) {
+        numberOfPlayers = players;
+
         for (int i = 1; i < players + 1; i++) {
             String player_name = String.format("Player %s", String.valueOf(i));
             playerList.add(new Player(player_name, new Piece("placeholder_piece.png")));
@@ -265,6 +270,16 @@ public class GameBoard extends JPanel {
               {
                 JPanel doubleText = new JPanel();
               }
+
+
+              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew " + newCard.getColor());
+              // Cycle Turns
+              currentTurn++;
+              if (currentTurn > numberOfPlayers) {
+                  currentTurn = 1;
+              }
+              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+
           }
       });
 

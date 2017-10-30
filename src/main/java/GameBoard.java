@@ -309,7 +309,7 @@ public class GameBoard extends JPanel {
 
     public static String photo_input(int i) {
         if (i == 10) {
-            return "src/assets/star-for-walker-th.png";
+            return "src/assets/Home_tile.png";
         } else
             return "src/assets/house-th.png";
     }

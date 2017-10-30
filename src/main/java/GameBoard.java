@@ -259,4 +259,8 @@ public class GameBoard extends JPanel{
       else
         return "src/assets/house-th.png";
     }
+    public void test_quit()
+    {
+      System.exit(0);
+    }
 }

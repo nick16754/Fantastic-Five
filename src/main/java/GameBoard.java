@@ -82,20 +82,7 @@ public class GameBoard extends JPanel{
         tileList.add(new Tile(tiles[7][7], 7, 7));
         tileList.add(new Tile(tiles[7][8], 7, 8));
         tileList.add(new Tile(tiles[7][9], 7, 9));
-        try {
-            BufferedImage image = ImageIO.read(new File("src/assets/End_tile.jpg"));
-            JPanel pane = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image, 0, 0, null);
-            }
-        };
 
-
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
         //tileList.get(i).getPanel().setBackground();
         // cycle the rest of the colors
         int colorCounter = 0;
@@ -186,7 +173,7 @@ public class GameBoard extends JPanel{
                   @Override
                   protected void paintComponent(Graphics g) {
                       super.paintComponent(g);
-                      g.drawImage(image, 0, 0, null);
+                      g.drawImage(image, 0, 0, 100,70, null);
                     }
               };
 

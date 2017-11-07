@@ -256,35 +256,71 @@ public class GameBoard extends JPanel {
       card.add(doubleText);
       doubleText.setVisible(false);
 
+      JLabel skipTurnText = new JLabel("Skip Turn");
+      skipTurnText.setFont(skipTurnText.getFont().deriveFont(24f));
+      card.add(skipTurnText);
+      skipTurnText.setVisible(false);
+
+      JLabel goToMiddleText = new JLabel("Go To Middle");
+      goToMiddleText.setFont(goToMiddleText.getFont().deriveFont(24f));
+      card.add(goToMiddleText);
+      goToMiddleText.setVisible(false);
+
       deck.addMouseListener(new MouseAdapter() {
           @Override
           public void mousePressed(MouseEvent e) {
               //System.out.println(cardDeck.getSize());
               System.out.println("Card Drawn");
               WoSCard newCard = cardDeck.drawCard();
-              if(newCard.getColor().equals("red")){
+              if(newCard.getCardType().equals("red")){
                 card.setBackground(Color.RED);
               }
-              else if(newCard.getColor().equals("yellow")){
+              else if(newCard.getCardType().equals("yellow")){
                 card.setBackground(Color.YELLOW);
               }
-              else if(newCard.getColor().equals("blue")){
+              else if(newCard.getCardType().equals("blue")){
                 card.setBackground(Color.BLUE);
               }
-              else if(newCard.getColor().equals("green")){
+              else if(newCard.getCardType().equals("green")){
                 card.setBackground(Color.GREEN);
               }
-              else if(newCard.getColor().equals("orange")){
+              else if(newCard.getCardType().equals("orange")){
                 card.setBackground(Color.ORANGE);
+              }
+              else if(newCard.getCardType().equals("skipTurn")){
+                card.setBackground(Color.WHITE);
+              }
+              else if(newCard.getCardType().equals("goToMiddle")){
+                card.setBackground(Color.WHITE);
               }
 
               if(newCard.getDoubleCard()){
                 doubleText.setVisible(true);
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getColor());
+                skipTurnText.setVisible(false);
+                goToMiddleText.setVisible(false);
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getCardType());
               }
               else{
-                doubleText.setVisible(false);
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
+                if(newCard.getCardType() == "skipTurn")
+                {
+                  skipTurnText.setVisible(true);
+                  doubleText.setVisible(false);
+                  goToMiddleText.setVisible(false);
+                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
+                  //TODO: set flag to continue turn loop
+                }
+                else if(newCard.getCardType() == "goToMiddle")
+                {
+                  goToMiddleText.setVisible(true);
+                  skipTurnText.setVisible(false);
+                  doubleText.setVisible(false);
+                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the middle square of the board.");
+                  //TODO: set flag to move player to middle
+                }
+                else{
+                  doubleText.setVisible(false);
+                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
+                }
               }
 
               // Cycle Turns

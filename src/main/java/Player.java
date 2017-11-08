@@ -12,14 +12,14 @@ public class Player {
     }
 
     // Actions
-    public void moveToTile(Tile t) {
+    public void moveToTile(GameBoard g, Tile t) {
 
         // Check if the piece is already on a tile
         if (currentTile != null) {
-            currentTile.removePiece(piece);
+            currentTile.removePiece(g, piece);
         }
 
-        t.placePiece(piece);
+        t.placePiece(g, piece);
         currentTile = t;
     }
 

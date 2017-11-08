@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 public class Tile extends JPanel {
 
-    int currentPlayers = 0;
-    JPanel panel;
+    private int currentPlayers = 0;
+    private JPanel panel;
+    private int xCoord, yCoord;
 
-    int xCoord, yCoord;
-
-    ArrayList<Piece> currentPieces = new ArrayList<>();
+    private ArrayList<Piece> currentPieces = new ArrayList<>();
 
     // Constructor
     public Tile(JPanel p, int x, int y) {
@@ -20,14 +19,14 @@ public class Tile extends JPanel {
 
 
     // Actions
-    public void placePiece(Piece p) {
+    public void placePiece(GameBoard g, Piece p) {
         currentPlayers++;
         currentPieces.add(p);
 
-        refreshPanel();
+        refreshPanel(g);
     }
 
-    public void refreshPanel() {
+    public void refreshPanel(GameBoard gb) {
         GridLayout g = generateLayout();
 
         panel.removeAll();
@@ -37,14 +36,14 @@ public class Tile extends JPanel {
             panel.add(p.getLabel());
         }
 
-        GameBoard.refresh();
+        gb.refresh();
     }
 
-    public void removePiece(Piece rm) {
+    public void removePiece(GameBoard g, Piece rm) {
         currentPieces.remove(rm);
         currentPlayers--;
 
-        refreshPanel();
+        refreshPanel(g);
     }
 
     private GridLayout generateLayout() {
@@ -71,6 +70,10 @@ public class Tile extends JPanel {
 
     public int getyCoord() {
         return yCoord;
+    }
+
+    public ArrayList<Piece> getCurrentPieces() {
+        return currentPieces;
     }
 
 

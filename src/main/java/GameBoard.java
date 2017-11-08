@@ -349,7 +349,7 @@ public class GameBoard extends JPanel {
 
         int playerCurrentTile = p.getCurrentTile().getIndex();
 
-        Color target = colorMap.get(card.getColor().toLowerCase());
+        Color target = colorMap.get(card.getCardType().toLowerCase());
 
         if (p.getCurrentTile().getIndex() < tileList.size()-5) {
             if (card.getDoubleCard()) {

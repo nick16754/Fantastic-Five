@@ -267,29 +267,49 @@ public class GameBoard extends JPanel {
 
         Color target = colorMap.get(card.getColor().toLowerCase());
 
-        if (card.getDoubleCard()) {
-            boolean skipped = false;
-            for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
-                if (getTileList().get(i).getColor() == target) {
+        if (p.getCurrentTile().getIndex() < tileList.size()-5) {
+            if (card.getDoubleCard()) {
+                boolean skipped = false;
+                for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
+                    if (getTileList().get(i).getColor() == target) {
 
-                    if (skipped) {
+                        if (skipped) {
+                            System.out.println("Moving Player to tile " + i);
+                            p.moveToTile(this, getTileList().get(i));
+                            return true;
+                        } else {
+                            skipped = true;
+                        }
+                    }
+                }
+            } else {
+                for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
+                    if (getTileList().get(i).getColor() == target) {
                         System.out.println("Moving Player to tile " + i);
                         p.moveToTile(this, getTileList().get(i));
                         return true;
-                    } else {
-                        skipped = true;
                     }
                 }
             }
         } else {
-            for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
-                if (getTileList().get(i).getColor() == target) {
-                    System.out.println("Moving Player to tile " + i);
-                    p.moveToTile(this, getTileList().get(i));
-                    return true;
+            if (card.getDoubleCard()) {
+                showWinDialog(p);
+            } else {
+                boolean success = false;
+                for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
+                    if (getTileList().get(i).getColor() == target) {
+                        System.out.println("Moving Player to tile " + i);
+                        p.moveToTile(this, getTileList().get(i));
+                        success = true;
+                    }
+                }
+
+                if (!success) {
+                    showWinDialog(p);
                 }
             }
         }
+
 
 
         System.out.println("unable to move the player");
@@ -336,6 +356,11 @@ public class GameBoard extends JPanel {
         t.add(new Tile(tiles[7][9], 7, 9, 33));
 
         return t;
+    }
+
+    public void showWinDialog(Player p) {
+        JOptionPane.showMessageDialog(new JFrame(), "Player " + p.getName() + " wins!");
+        System.exit(0);
     }
 
     public void refresh() {

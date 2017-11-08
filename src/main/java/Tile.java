@@ -7,14 +7,18 @@ public class Tile extends JPanel {
     private int currentPlayers = 0;
     private JPanel panel;
     private int xCoord, yCoord;
+    private int index;
+
+    private Color color;
 
     private ArrayList<Piece> currentPieces = new ArrayList<>();
 
     // Constructor
-    public Tile(JPanel p, int x, int y) {
+    public Tile(JPanel p, int x, int y, int i) {
         this.panel = p;
         this.xCoord = x;
         this.yCoord = y;
+        this.index = i;
     }
 
 
@@ -76,5 +80,16 @@ public class Tile extends JPanel {
         return currentPieces;
     }
 
+    public int getIndex() {
+        return index;
+    }
 
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

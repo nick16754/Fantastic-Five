@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,22 +10,23 @@ import java.awt.image.BufferedImage;
 
 public class GameBoard extends JPanel {
 
-    private static final int WINDOW_HEIGHT = 1000;
-    private static final int WINDOW_WIDTH = 1400;
+    private final int WINDOW_HEIGHT = 1000;
+    private final int WINDOW_WIDTH = 1400;
 
-    private static final int TILES_X = 10;
-    private static final int TILES_Y = 10;
+    private final int TILES_X = 10;
+    private final int TILES_Y = 10;
 
-    private static int currentTurn = 1;
-    private static int numberOfPlayers;
+    private int currentTurn = 1;
+    private int numberOfPlayers;
 
-    static JFrame _frame = new JFrame("World of Sweets");
+    private JFrame _frame = new JFrame("World of Sweets");
 
-    static JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
-    static LinkedList<Tile> tileList = new LinkedList<>();
-    static ArrayList<Player> playerList = new ArrayList<>();
+    private JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
 
-    private static WoSDeck cardDeck = new WoSDeck();
+    private ArrayList<Player> playerList = new ArrayList<>();
+    private ArrayList<Tile> tileList;
+
+    private WoSDeck cardDeck = new WoSDeck();
 
     // Constructor
     public GameBoard(int players) {
@@ -41,7 +41,7 @@ public class GameBoard extends JPanel {
     }
 
 
-    private static void initialize() {
+    private void initialize() {
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);
@@ -51,44 +51,8 @@ public class GameBoard extends JPanel {
         colors.add(Color.ORANGE);
 
 
-        // Build the path of the game board
-        //todo: clean this up
-        tileList.add(new Tile(tiles[1][0], 1, 0));
-        tileList.add(new Tile(tiles[1][1], 1, 1));
-        tileList.add(new Tile(tiles[2][1], 2, 1));
-        tileList.add(new Tile(tiles[3][1], 3, 1));
-        tileList.add(new Tile(tiles[4][1], 4, 1));
-        tileList.add(new Tile(tiles[5][1], 5, 1));
-        tileList.add(new Tile(tiles[6][1], 6, 1));
-        tileList.add(new Tile(tiles[7][1], 7, 1));
-        tileList.add(new Tile(tiles[8][1], 8, 1));
-        tileList.add(new Tile(tiles[9][1], 9, 1));
-        tileList.add(new Tile(tiles[9][2], 9, 2));
-        tileList.add(new Tile(tiles[9][3], 9, 3));
-        tileList.add(new Tile(tiles[8][3], 8, 3));
-        tileList.add(new Tile(tiles[7][3], 7, 3));
-        tileList.add(new Tile(tiles[6][3], 6, 3));
-        tileList.add(new Tile(tiles[5][3], 5, 3));
-        tileList.add(new Tile(tiles[4][3], 4, 3));
-        tileList.add(new Tile(tiles[3][3], 3, 3));
-        tileList.add(new Tile(tiles[2][3], 2, 3));
-        tileList.add(new Tile(tiles[2][4], 2, 4));
-        tileList.add(new Tile(tiles[2][5], 2, 5));
-        tileList.add(new Tile(tiles[2][6], 2, 6));
-        tileList.add(new Tile(tiles[2][7], 2, 7));
-        tileList.add(new Tile(tiles[3][7], 3, 7));
-        tileList.add(new Tile(tiles[4][7], 4, 7));
-        tileList.add(new Tile(tiles[5][7], 5, 7));
-        tileList.add(new Tile(tiles[5][6], 5, 6));
-        tileList.add(new Tile(tiles[5][5], 5, 5));
-        tileList.add(new Tile(tiles[6][5], 6, 5));
-        tileList.add(new Tile(tiles[7][5], 7, 5));
-        tileList.add(new Tile(tiles[7][6], 7, 6));
-        tileList.add(new Tile(tiles[7][7], 7, 7));
-        tileList.add(new Tile(tiles[7][8], 7, 8));
-        tileList.add(new Tile(tiles[7][9], 7, 9));
+        tileList = generateTileList();
 
-        //tileList.get(i).getPanel().setBackground();
         // cycle the rest of the colors
         int colorCounter = 0;
         for (int i = 1; i < tileList.size() - 1; i++) {
@@ -102,30 +66,15 @@ public class GameBoard extends JPanel {
         }
 
 
-        // Paint the remaining tiles a gray background color
-        //todo: Fix this
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-//                if ((!validX.contains(i)) && (!validY.contains(j))) {
-//                    tiles[i][j].setBackground(Color.BLUE);
-//                    System.out.println("x"+i+",y"+j);
-//
-//                }
-            }
-        }
-
-
-        // Place placeholder piece on first square
+        // Place each player's token
         for (Player p : playerList) {
-            p.moveToTile(tileList.get(0));
+            p.moveToTile(this, tileList.get(0));
         }
 
         _frame.setVisible(true);
-
-
     }
 
-    private static void create_board() {
+    private void create_board() {
         // Center the frame
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) (dimension.getWidth() / 2) - (WINDOW_WIDTH / 2);
@@ -155,6 +104,7 @@ public class GameBoard extends JPanel {
 
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
+        cardPanel.setSize(400, 1000);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.4;
@@ -207,8 +157,8 @@ public class GameBoard extends JPanel {
             } else {
 
                 JPanel sub = new JPanel();
-                //          sub.setBorder(BorderFactory.createLineBorder(Color.black));
-//            sub.setBackground(Color.red);
+//                sub.setBorder(BorderFactory.createLineBorder(Color.black));
+//                sub.setBackground(Color.red);
                 sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
                 sub.addMouseListener(new MouseAdapter() {
                     @Override
@@ -237,151 +187,113 @@ public class GameBoard extends JPanel {
         addDeck(cardPanel);
     }
 
+    private void addDeck(JPanel cardPanel) {
+        cardPanel.setLayout(null);
+        JPanel deck = new JPanel();
+        deck.setBackground(Color.WHITE);
+        deck.setLayout(new GridBagLayout());
 
-    private static void addDeck(JPanel cardPanel){
-      cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.PAGE_AXIS));
-      cardPanel.setMinimumSize(new Dimension(400, 1000));
-      cardPanel.setMinimumSize(new Dimension(400, 1000));
+        JPanel card = new JPanel();
+        card.setBackground(Color.WHITE);
+        card.setLayout(new GridBagLayout());
 
-      JPanel deck = new JPanel();
-      deck.setBackground(Color.WHITE);
-      deck.setLayout(new GridBagLayout());
-      deck.setMaximumSize(new Dimension (200, 100));
-      deck.setMinimumSize(new Dimension (200, 100));
+        JLabel deckLabel = new JLabel("Deck");
+        deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
+        deck.add(deckLabel);
 
-      JPanel card = new JPanel();
-      card.setBackground(Color.WHITE);
-      card.setLayout(new GridBagLayout());
-      card.setMaximumSize(new Dimension (200, 100));
-      card.setMinimumSize(new Dimension (200, 100));
+        JLabel doubleText = new JLabel("2x");
+        doubleText.setFont(doubleText.getFont().deriveFont(64f));
+        card.add(doubleText);
+        doubleText.setVisible(false);
 
-      //JLabel deckLabel = new JLabel("Deck");
-      //deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
-      //deck.add(deckLabel);
-
-      JLabel doubleText = new JLabel("2x");
-      doubleText.setFont(doubleText.getFont().deriveFont(64f));
-      card.add(doubleText);
-      doubleText.setVisible(false);
-
-      JLabel skipTurnText = new JLabel("Skip Turn");
-      skipTurnText.setFont(skipTurnText.getFont().deriveFont(24f));
-      card.add(skipTurnText);
-      skipTurnText.setVisible(false);
-
-      JLabel goToMiddleText = new JLabel("Go To Middle");
-      goToMiddleText.setFont(goToMiddleText.getFont().deriveFont(24f));
-      card.add(goToMiddleText);
-      goToMiddleText.setVisible(false);
-
-      JPanel deckPanel = new JPanel();
-      deckPanel.setMaximumSize(new Dimension(400, 400));
-      deckPanel.setMinimumSize(new Dimension(400, 400));
-      deckPanel.setBackground(Color.PINK);
-      deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.PAGE_AXIS));
-      deckPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-      TitledBorder deckTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Deck");
-      deckTitle.setTitleJustification(TitledBorder.LEFT);
-      deckPanel.setBorder(deckTitle);
-      deckPanel.add(Box.createRigidArea(new Dimension(0,50)));
-      deckPanel.add(deck);
-      deckPanel.add(Box.createRigidArea(new Dimension(0,50)));
-      deckPanel.add(card);
-
-      JPanel playerPanel = new JPanel();
-      playerPanel.setBackground(Color.PINK);
-      playerPanel.setMaximumSize(new Dimension(400, 600));
-      playerPanel.setMinimumSize(new Dimension(400, 600));
-      playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.PAGE_AXIS));
-      playerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-      TitledBorder playerTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Player Information");
-      playerTitle.setTitleJustification(TitledBorder.LEFT);
-      playerPanel.setBorder(playerTitle);
-
-      JTextArea playerInfo = new JTextArea();
-      playerPanel.add(playerInfo);
-      playerInfo.setEditable(false);
-
-      cardPanel.add(deckPanel);
-      cardPanel.add(playerPanel);
-
-      deck.addMouseListener(new MouseAdapter() {
-          @Override
-          public void mousePressed(MouseEvent e) {
-              //System.out.println(cardDeck.getSize());
-              System.out.println("Card Drawn");
-              WoSCard newCard = cardDeck.drawCard();
-              if(newCard.getCardType().equals("red")){
-                card.setBackground(Color.RED);
-              }
-              else if(newCard.getCardType().equals("yellow")){
-                card.setBackground(Color.YELLOW);
-              }
-              else if(newCard.getCardType().equals("blue")){
-                card.setBackground(Color.BLUE);
-              }
-              else if(newCard.getCardType().equals("green")){
-                card.setBackground(Color.GREEN);
-              }
-              else if(newCard.getCardType().equals("orange")){
-                card.setBackground(Color.ORANGE);
-              }
-              else if(newCard.getCardType().equals("skipTurn")){
-                card.setBackground(Color.WHITE);
-              }
-              else if(newCard.getCardType().equals("goToMiddle")){
-                card.setBackground(Color.WHITE);
-              }
-
-              if(newCard.getDoubleCard()){
-                doubleText.setVisible(true);
-                skipTurnText.setVisible(false);
-                goToMiddleText.setVisible(false);
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getCardType());
-              }
-              else{
-                if(newCard.getCardType() == "skipTurn")
-                {
-                  skipTurnText.setVisible(true);
-                  doubleText.setVisible(false);
-                  goToMiddleText.setVisible(false);
-                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
-                  //TODO: set flag to continue turn loop
+        deck.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //System.out.println(cardDeck.getSize());
+                System.out.println("Card Drawn");
+                WoSCard newCard = cardDeck.drawCard();
+                if (newCard.getColor().equals("red")) {
+                    card.setBackground(Color.RED);
+                } else if (newCard.getColor().equals("yellow")) {
+                    card.setBackground(Color.YELLOW);
+                } else if (newCard.getColor().equals("blue")) {
+                    card.setBackground(Color.BLUE);
+                } else if (newCard.getColor().equals("green")) {
+                    card.setBackground(Color.GREEN);
+                } else if (newCard.getColor().equals("orange")) {
+                    card.setBackground(Color.ORANGE);
                 }
-                else if(newCard.getCardType() == "goToMiddle")
-                {
-                  goToMiddleText.setVisible(true);
-                  skipTurnText.setVisible(false);
-                  doubleText.setVisible(false);
-                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the middle square of the board.");
-                  //TODO: set flag to move player to middle
-                }
-                else{
-                  goToMiddleText.setVisible(false);
-                  skipTurnText.setVisible(false);
-                  doubleText.setVisible(false);
-                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
-                }
-              }
 
-              // Cycle Turns
-              currentTurn++;
-              if (currentTurn > numberOfPlayers) {
-                  currentTurn = 1;
-              }
-              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+                if (newCard.getDoubleCard()) {
+                    doubleText.setVisible(true);
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getColor());
+                } else {
+                    doubleText.setVisible(false);
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
+                }
 
-          }
-      });
+                // Cycle Turns
+                currentTurn++;
+                if (currentTurn > numberOfPlayers) {
+                    currentTurn = 1;
+                }
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+
+            }
+        });
+
+        deck.setBounds(50, 100, 200, 100);
+        card.setBounds(50, 250, 200, 100);
+        cardPanel.add(deck);
+        cardPanel.add(card);
     }
 
-    public static void refresh() {
+    private ArrayList<Tile> generateTileList() {
+        System.out.println("Generating Tile List");
+        ArrayList<Tile> t = new ArrayList<>();
+        t.add(new Tile(tiles[1][0], 1, 0));
+        t.add(new Tile(tiles[1][1], 1, 1));
+        t.add(new Tile(tiles[2][1], 2, 1));
+        t.add(new Tile(tiles[3][1], 3, 1));
+        t.add(new Tile(tiles[4][1], 4, 1));
+        t.add(new Tile(tiles[5][1], 5, 1));
+        t.add(new Tile(tiles[6][1], 6, 1));
+        t.add(new Tile(tiles[7][1], 7, 1));
+        t.add(new Tile(tiles[8][1], 8, 1));
+        t.add(new Tile(tiles[9][1], 9, 1));
+        t.add(new Tile(tiles[9][2], 9, 2));
+        t.add(new Tile(tiles[9][3], 9, 3));
+        t.add(new Tile(tiles[8][3], 8, 3));
+        t.add(new Tile(tiles[7][3], 7, 3));
+        t.add(new Tile(tiles[6][3], 6, 3));
+        t.add(new Tile(tiles[5][3], 5, 3));
+        t.add(new Tile(tiles[4][3], 4, 3));
+        t.add(new Tile(tiles[3][3], 3, 3));
+        t.add(new Tile(tiles[2][3], 2, 3));
+        t.add(new Tile(tiles[2][4], 2, 4));
+        t.add(new Tile(tiles[2][5], 2, 5));
+        t.add(new Tile(tiles[2][6], 2, 6));
+        t.add(new Tile(tiles[2][7], 2, 7));
+        t.add(new Tile(tiles[3][7], 3, 7));
+        t.add(new Tile(tiles[4][7], 4, 7));
+        t.add(new Tile(tiles[5][7], 5, 7));
+        t.add(new Tile(tiles[5][6], 5, 6));
+        t.add(new Tile(tiles[5][5], 5, 5));
+        t.add(new Tile(tiles[6][5], 6, 5));
+        t.add(new Tile(tiles[7][5], 7, 5));
+        t.add(new Tile(tiles[7][6], 7, 6));
+        t.add(new Tile(tiles[7][7], 7, 7));
+        t.add(new Tile(tiles[7][8], 7, 8));
+        t.add(new Tile(tiles[7][9], 7, 9));
+
+        return t;
+    }
+
+    public void refresh() {
         _frame.validate();
     }
 
-    public static String photo_input(int i) {
+    public String photo_input(int i) {
         if (i == 10) {
             return "src/assets/Home_tile.png";
         } else
@@ -390,5 +302,14 @@ public class GameBoard extends JPanel {
 
     public void test_quit() {
         System.exit(0);
+    }
+
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public ArrayList<Tile> getTileList() {
+        return tileList;
     }
 }

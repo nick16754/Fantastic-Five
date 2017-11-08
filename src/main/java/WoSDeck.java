@@ -16,6 +16,7 @@ public class WoSDeck{
   }
 
   public void fillDeck(){
+    // For loop for adding colored cards (singles and doubles) to deck
     for (int i = 0; i < 5; i++){
       String color = "";
       if(i == 0){
@@ -42,6 +43,16 @@ public class WoSDeck{
         WoSCard newCard = new WoSCard(true, color);
         deck.add(newCard);
       }
+    }
+    // For loop for adding skipTurn cards to deck
+    for (int s = 0; s < 5; s++){
+      WoSCard newCard = new WoSCard(false, "skipTurn");
+      deck.add(newCard);
+    }
+    // For loop for adding goToMiddle cards to deck
+    for (int g = 0; g < 3; g++){
+      WoSCard newCard = new WoSCard(false, "goToMiddle");
+      deck.add(newCard);
     }
   }
 

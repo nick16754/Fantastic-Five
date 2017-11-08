@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 import org.junit.*;
+import org.mockito.*;
+import static org.mockito.Mockito.*;
 
 public class GameBoardTest{
     @Test
@@ -50,9 +52,35 @@ public class GameBoardTest{
       testboard.test_quit();
     }
 
+// makes sure deck has 60 cards to start with
+    @Test
+    public void test_fill_deck()
+    {
 
+      WoSDeck deck = new WoSDeck();
+      assertEquals(deck.getSize(),60);
+    }
 
+//ensure that deck refills.
+    @Test
+    public void test_refill_deck()
+    {
+      WoSDeck deck = new WoSDeck();
+      WoSCard card;
+      for (int i=0; i < 60; i++)
+        card = deck.drawCard();
+      assertEquals(deck.getSize(),60);
+    }
 
+   // test to make sure players start on the first tile.  
+    @Test
+    public void test_start()
+    {
+      GameBoard testboard = new GameBoard(3);
+      assertEquals(testboard.playerList.get(0).getCurrentTile().getxCoord(),0);
+      assertEquals(testboard.playerList.get(0).getCurrentTile().getyCoord(),1);
+      testboard.test_quit();
+    }
 
 
 }

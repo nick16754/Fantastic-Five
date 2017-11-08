@@ -237,6 +237,7 @@ public class GameBoard extends JPanel {
         addDeck(cardPanel);
     }
 
+
     private static void addDeck(JPanel cardPanel){
       cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.PAGE_AXIS));
       cardPanel.setMinimumSize(new Dimension(400, 1000));

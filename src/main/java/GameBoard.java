@@ -190,7 +190,7 @@ public class GameBoard extends JPanel {
         addDeck(cardPanel);
     }
 
-    private void addDeck(JPanel cardPanel){
+    private void addDeck(JPanel cardPanel) {
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.PAGE_AXIS));
         cardPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         //cardPanel.setMinimumSize(new Dimension(400, 1000));
@@ -199,14 +199,14 @@ public class GameBoard extends JPanel {
         JPanel deck = new JPanel();
         deck.setBackground(Color.WHITE);
         deck.setLayout(new GridBagLayout());
-        deck.setMaximumSize(new Dimension (200, 100));
-        deck.setMinimumSize(new Dimension (200, 100));
+        deck.setMaximumSize(new Dimension(200, 100));
+        deck.setMinimumSize(new Dimension(200, 100));
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setLayout(new GridBagLayout());
-        card.setMaximumSize(new Dimension (200, 100));
-        card.setMinimumSize(new Dimension (200, 100));
+        card.setMaximumSize(new Dimension(200, 100));
+        card.setMinimumSize(new Dimension(200, 100));
 
         //JLabel deckLabel = new JLabel("Deck");
         //deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
@@ -214,22 +214,22 @@ public class GameBoard extends JPanel {
 
         JLabel doubleText = new JLabel("2x");
         doubleText.setFont(doubleText.getFont().deriveFont(24f));
-        doubleText.setMaximumSize(new Dimension (200, 100));
-        doubleText.setMinimumSize(new Dimension (200, 100));
+        doubleText.setMaximumSize(new Dimension(200, 100));
+        doubleText.setMinimumSize(new Dimension(200, 100));
         card.add(doubleText);
         doubleText.setVisible(false);
 
         JLabel skipTurnText = new JLabel("Skip Turn");
         skipTurnText.setFont(skipTurnText.getFont().deriveFont(24f));
-        skipTurnText.setMaximumSize(new Dimension (200, 100));
-        skipTurnText.setMinimumSize(new Dimension (200, 100));
+        skipTurnText.setMaximumSize(new Dimension(200, 100));
+        skipTurnText.setMinimumSize(new Dimension(200, 100));
         card.add(skipTurnText);
         skipTurnText.setVisible(false);
 
         JLabel goToMiddleText = new JLabel("Go To Middle");
         goToMiddleText.setFont(goToMiddleText.getFont().deriveFont(24f));
-        goToMiddleText.setMaximumSize(new Dimension (200, 100));
-        goToMiddleText.setMinimumSize(new Dimension (200, 100));
+        goToMiddleText.setMaximumSize(new Dimension(200, 100));
+        goToMiddleText.setMinimumSize(new Dimension(200, 100));
         card.add(goToMiddleText);
         goToMiddleText.setVisible(false);
 
@@ -243,9 +243,9 @@ public class GameBoard extends JPanel {
         TitledBorder deckTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Deck");
         deckTitle.setTitleJustification(TitledBorder.LEFT);
         deckPanel.setBorder(deckTitle);
-        deckPanel.add(Box.createRigidArea(new Dimension(0,50)));
+        deckPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         deckPanel.add(deck);
-        deckPanel.add(Box.createRigidArea(new Dimension(0,50)));
+        deckPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         deckPanel.add(card);
 
         JPanel playerPanel = new JPanel();
@@ -262,7 +262,7 @@ public class GameBoard extends JPanel {
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
         playerInfo.setEditable(false);
-        playerInfo.append("There are currently "+numberOfPlayers+" players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
+        playerInfo.append("There are currently " + numberOfPlayers + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
 
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);
@@ -273,58 +273,50 @@ public class GameBoard extends JPanel {
                 //System.out.println(cardDeck.getSize());
                 System.out.println("Card Drawn");
                 WoSCard newCard = cardDeck.drawCard();
-                if(newCard.getCardType().equals("red")){
-                  card.setBackground(Color.RED);
-                }
-                else if(newCard.getCardType().equals("yellow")){
-                  card.setBackground(Color.YELLOW);
-                }
-                else if(newCard.getCardType().equals("blue")){
-                  card.setBackground(Color.BLUE);
-                }
-                else if(newCard.getCardType().equals("green")){
-                  card.setBackground(Color.GREEN);
-                }
-                else if(newCard.getCardType().equals("orange")){
-                  card.setBackground(Color.ORANGE);
-                }
-                else if(newCard.getCardType().equals("skipTurn")){
-                  card.setBackground(Color.WHITE);
-                }
-                else if(newCard.getCardType().equals("goToMiddle")){
-                  card.setBackground(Color.WHITE);
+                if (newCard.getCardType().equals("red")) {
+                    card.setBackground(Color.RED);
+                } else if (newCard.getCardType().equals("yellow")) {
+                    card.setBackground(Color.YELLOW);
+                } else if (newCard.getCardType().equals("blue")) {
+                    card.setBackground(Color.BLUE);
+                } else if (newCard.getCardType().equals("green")) {
+                    card.setBackground(Color.GREEN);
+                } else if (newCard.getCardType().equals("orange")) {
+                    card.setBackground(Color.ORANGE);
+                } else if (newCard.getCardType().equals("skipTurn")) {
+                    card.setBackground(Color.WHITE);
+                } else if (newCard.getCardType().equals("goToMiddle")) {
+                    card.setBackground(Color.WHITE);
                 }
 
-                if(newCard.getDoubleCard()){
-                  doubleText.setVisible(true);
-                  skipTurnText.setVisible(false);
-                  goToMiddleText.setVisible(false);
-                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getCardType());
+                if (newCard.getDoubleCard()) {
+                    doubleText.setVisible(true);
+                    skipTurnText.setVisible(false);
+                    goToMiddleText.setVisible(false);
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getCardType());
+                } else {
+                    if (newCard.getCardType() == "skipTurn") {
+                        skipTurnText.setVisible(true);
+                        doubleText.setVisible(false);
+                        goToMiddleText.setVisible(false);
+                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
+                        //TODO: set flag to continue turn loop
+                    } else if (newCard.getCardType() == "goToMiddle") {
+                        goToMiddleText.setVisible(true);
+                        skipTurnText.setVisible(false);
+                        doubleText.setVisible(false);
+                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the middle square of the board.");
+                        movePlayer(playerList.get(currentTurn), newCard);
+                    } else {
+                        goToMiddleText.setVisible(false);
+                        skipTurnText.setVisible(false);
+                        doubleText.setVisible(false);
+                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
+                    }
                 }
-                else{
-                  if(newCard.getCardType() == "skipTurn"){
-                    skipTurnText.setVisible(true);
-                    doubleText.setVisible(false);
-                    goToMiddleText.setVisible(false);
-                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
-                    //TODO: set flag to continue turn loop
-                  }
-                  else if(newCard.getCardType() == "goToMiddle"){
-                    goToMiddleText.setVisible(true);
-                    skipTurnText.setVisible(false);
-                    doubleText.setVisible(false);
-                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the middle square of the board.");
-                    //TODO: set flag to move player to middle
-                  }
-                  else{
-                    goToMiddleText.setVisible(false);
-                    skipTurnText.setVisible(false);
-                    doubleText.setVisible(false);
-                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());                }
-                  }
 
-                System.out.println("Moving player index " + (currentTurn-1));
-                movePlayer(playerList.get(currentTurn-1), newCard);
+                System.out.println("Moving player index " + (currentTurn - 1));
+                movePlayer(playerList.get(currentTurn - 1), newCard);
                 System.out.println("Validating");
                 refresh();
 
@@ -332,11 +324,11 @@ public class GameBoard extends JPanel {
                 currentTurn++;
                 if (currentTurn > numberOfPlayers) {
                     currentTurn = 1;
-                  }
-                  JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
                 }
-          });
-       }
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+            }
+        });
+    }
 
 
     private boolean movePlayer(Player p, WoSCard card) {
@@ -351,10 +343,13 @@ public class GameBoard extends JPanel {
 
         Color target = colorMap.get(card.getCardType().toLowerCase());
 
-        if (p.getCurrentTile().getIndex() < tileList.size()-5) {
+
+        if (card.getCardType() == "goToMiddle") {
+            p.moveToTile(this, tileList.get(tileList.size() / 2));
+        } else if (p.getCurrentTile().getIndex() < tileList.size() - 5) {
             if (card.getDoubleCard()) {
                 boolean skipped = false;
-                for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
+                for (int i = playerCurrentTile + 1; i < getTileList().size(); i++) {
                     if (getTileList().get(i).getColor() == target) {
 
                         if (skipped) {
@@ -367,7 +362,7 @@ public class GameBoard extends JPanel {
                     }
                 }
             } else {
-                for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
+                for (int i = playerCurrentTile + 1; i < getTileList().size(); i++) {
                     if (getTileList().get(i).getColor() == target) {
                         System.out.println("Moving Player to tile " + i);
                         p.moveToTile(this, getTileList().get(i));
@@ -380,7 +375,7 @@ public class GameBoard extends JPanel {
                 showWinDialog(p);
             } else {
                 boolean success = false;
-                for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
+                for (int i = playerCurrentTile + 1; i < getTileList().size(); i++) {
                     if (getTileList().get(i).getColor() == target) {
                         System.out.println("Moving Player to tile " + i);
                         p.moveToTile(this, getTileList().get(i));
@@ -393,7 +388,6 @@ public class GameBoard extends JPanel {
                 }
             }
         }
-
 
 
         System.out.println("unable to move the player");

@@ -17,10 +17,16 @@ public class Player {
         // Check if the piece is already on a tile
         if (currentTile != null) {
             currentTile.removePiece(g, piece);
+            currentTile.revalidate();
+            currentTile.repaint();
         }
 
         t.placePiece(g, piece);
         currentTile = t;
+        currentTile.revalidate();
+        currentTile.repaint();
+
+        g.revalidate();
     }
 
 

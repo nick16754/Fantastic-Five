@@ -157,8 +157,8 @@ public class GameBoard extends JPanel {
             } else {
 
                 JPanel sub = new JPanel();
-                //          sub.setBorder(BorderFactory.createLineBorder(Color.black));
-//            sub.setBackground(Color.red);
+//                sub.setBorder(BorderFactory.createLineBorder(Color.black));
+//                sub.setBackground(Color.red);
                 sub.setSize((WINDOW_WIDTH / TILES_X), (WINDOW_HEIGHT / TILES_Y));
                 sub.addMouseListener(new MouseAdapter() {
                     @Override

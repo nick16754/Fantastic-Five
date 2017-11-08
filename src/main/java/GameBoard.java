@@ -134,6 +134,7 @@ public class GameBoard extends JPanel {
                         @Override
                         public void mousePressed(MouseEvent e) {
                             System.out.println("Click");
+                            refresh();
                         }
                     });
 
@@ -233,7 +234,10 @@ public class GameBoard extends JPanel {
                     JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
                 }
 
+                System.out.println("Moving player index " + (currentTurn-1));
                 movePlayer(playerList.get(currentTurn-1), newCard);
+                System.out.println("Validating");
+                refresh();
 
                 // Cycle Turns
                 currentTurn++;
@@ -265,7 +269,7 @@ public class GameBoard extends JPanel {
 
         if (card.getDoubleCard()) {
             boolean skipped = false;
-            for (int i = playerCurrentTile; i < getTileList().size(); i++) {
+            for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
                 if (getTileList().get(i).getColor() == target) {
 
                     if (skipped) {
@@ -278,7 +282,7 @@ public class GameBoard extends JPanel {
                 }
             }
         } else {
-            for (int i = playerCurrentTile; i < getTileList().size(); i++) {
+            for (int i = playerCurrentTile+1; i < getTileList().size(); i++) {
                 if (getTileList().get(i).getColor() == target) {
                     System.out.println("Moving Player to tile " + i);
                     p.moveToTile(this, getTileList().get(i));
@@ -336,6 +340,7 @@ public class GameBoard extends JPanel {
 
     public void refresh() {
         _frame.validate();
+        _frame.repaint();
     }
 
     public String photo_input(int i) {

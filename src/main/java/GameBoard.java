@@ -375,8 +375,6 @@ public class GameBoard extends JPanel {
 
           }
       });
-      //deck.setBounds(50, 100, 200, 100);
-      //card.setBounds(50, 250, 200, 100);
     }
 
     public static void refresh() {

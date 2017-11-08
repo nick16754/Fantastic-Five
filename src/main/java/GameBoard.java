@@ -10,22 +10,22 @@ import java.awt.image.BufferedImage;
 
 public class GameBoard extends JPanel {
 
-    private static final int WINDOW_HEIGHT = 1000;
-    private static final int WINDOW_WIDTH = 1400;
+    private final int WINDOW_HEIGHT = 1000;
+    private final int WINDOW_WIDTH = 1400;
 
-    private static final int TILES_X = 10;
-    private static final int TILES_Y = 10;
+    private final int TILES_X = 10;
+    private final int TILES_Y = 10;
 
-    private static int currentTurn = 1;
-    private static int numberOfPlayers;
+    private int currentTurn = 1;
+    private int numberOfPlayers;
 
-    static JFrame _frame = new JFrame("World of Sweets");
+    private JFrame _frame = new JFrame("World of Sweets");
 
-    static JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
-    static LinkedList<Tile> tileList = new LinkedList<>();
-    static ArrayList<Player> playerList = new ArrayList<>();
+    private JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
+    private LinkedList<Tile> tileList = new LinkedList<>();
+    private ArrayList<Player> playerList = new ArrayList<>();
 
-    private static WoSDeck cardDeck = new WoSDeck();
+    private WoSDeck cardDeck = new WoSDeck();
 
     // Constructor
     public GameBoard(int players) {
@@ -40,7 +40,7 @@ public class GameBoard extends JPanel {
     }
 
 
-    private static void initialize() {
+    private void initialize() {
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);
@@ -116,7 +116,7 @@ public class GameBoard extends JPanel {
 
         // Place placeholder piece on first square
         for (Player p : playerList) {
-            p.moveToTile(tileList.get(0));
+            p.moveToTile(this, tileList.get(0));
         }
 
         _frame.setVisible(true);
@@ -124,7 +124,7 @@ public class GameBoard extends JPanel {
 
     }
 
-    private static void create_board() {
+    private void create_board() {
         // Center the frame
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) (dimension.getWidth() / 2) - (WINDOW_WIDTH / 2);
@@ -237,7 +237,7 @@ public class GameBoard extends JPanel {
         addDeck(cardPanel);
     }
 
-    private static void addDeck(JPanel cardPanel){
+    private void addDeck(JPanel cardPanel){
       cardPanel.setLayout(null);
       JPanel deck = new JPanel();
       deck.setBackground(Color.WHITE);
@@ -303,11 +303,11 @@ public class GameBoard extends JPanel {
       cardPanel.add(card);
     }
 
-    public static void refresh() {
+    public void refresh() {
         _frame.validate();
     }
 
-    public static String photo_input(int i) {
+    public String photo_input(int i) {
         if (i == 10) {
             return "src/assets/Home_tile.png";
         } else

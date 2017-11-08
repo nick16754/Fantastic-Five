@@ -20,14 +20,14 @@ public class Tile extends JPanel {
 
 
     // Actions
-    public void placePiece(Piece p) {
+    public void placePiece(GameBoard g, Piece p) {
         currentPlayers++;
         currentPieces.add(p);
 
-        refreshPanel();
+        refreshPanel(g);
     }
 
-    public void refreshPanel() {
+    public void refreshPanel(GameBoard gb) {
         GridLayout g = generateLayout();
 
         panel.removeAll();
@@ -37,14 +37,14 @@ public class Tile extends JPanel {
             panel.add(p.getLabel());
         }
 
-        GameBoard.refresh();
+        gb.refresh();
     }
 
-    public void removePiece(Piece rm) {
+    public void removePiece(GameBoard g,Piece rm) {
         currentPieces.remove(rm);
         currentPlayers--;
 
-        refreshPanel();
+        refreshPanel(g);
     }
 
     private GridLayout generateLayout() {

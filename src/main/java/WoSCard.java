@@ -1,25 +1,25 @@
 public class WoSCard{
-  private boolean oneOrTwo; //does card move one or two spaces
-  private String color; //color
+  private boolean doubleCard; //does card move one or two spaces (false for special cards)
+  private String typeCard; //color or special (Skip Turn or Go To Middle)
 
-  public WoSCard(boolean number, String whatColor){
-    oneOrTwo = number;
-    color = whatColor;
+  public WoSCard(boolean number, String colorOrSpecial){
+    this.doubleCard = number;
+    this.typeCard = colorOrSpecial;
   }
 
-  public void setDoubleCard (boolean number){
-    oneOrTwo = number;
+  public void setDoubleCard (boolean oneOrTwo){
+    this.doubleCard = oneOrTwo;
   }
 
   public boolean getDoubleCard (){
-    return oneOrTwo;
+    return this.doubleCard;
   }
 
-  public void setColor (String whatColor){
-    color = whatColor;
+  public void setCardType (String colorOrSpecial){
+    this.typeCard = colorOrSpecial;
   }
 
-  public String getColor (){
-    return color;
+  public String getCardType (){
+    return this.typeCard;
   }
 }

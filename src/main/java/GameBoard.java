@@ -104,7 +104,10 @@ public class GameBoard extends JPanel {
 
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
+<<<<<<< Updated upstream
         cardPanel.setSize(400, 1000);
+=======
+>>>>>>> Stashed changes
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.4;
@@ -187,6 +190,7 @@ public class GameBoard extends JPanel {
         addDeck(cardPanel);
     }
 
+<<<<<<< Updated upstream
     private void addDeck(JPanel cardPanel) {
         cardPanel.setLayout(null);
         JPanel deck = new JPanel();
@@ -287,6 +291,59 @@ public class GameBoard extends JPanel {
         t.add(new Tile(tiles[7][9], 7, 9));
 
         return t;
+=======
+    private static void addDeck(JPanel cardPanel){
+      cardPanel.setLayout(null);
+      JPanel deck = new JPanel();
+      deck.setBackground(Color.WHITE);
+
+      JPanel card = new JPanel();
+      card.setBackground(Color.WHITE);
+
+      deck.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mousePressed(MouseEvent e) {
+              System.out.println(cardDeck.getSize());
+              System.out.println("Card Drawn");
+              WoSCard newCard = cardDeck.drawCard();
+              if(newCard.getColor().equals("red")){
+                card.setBackground(Color.RED);
+              }
+              else if(newCard.getColor().equals("yellow")){
+                card.setBackground(Color.YELLOW);
+              }
+              else if(newCard.getColor().equals("blue")){
+                card.setBackground(Color.BLUE);
+              }
+              else if(newCard.getColor().equals("green")){
+                card.setBackground(Color.GREEN);
+              }
+              else if(newCard.getColor().equals("orange")){
+                card.setBackground(Color.ORANGE);
+              }
+
+              if(newCard.getDoubleCard())
+              {
+                JPanel doubleText = new JPanel();
+              }
+
+
+              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew " + newCard.getColor());
+              // Cycle Turns
+              currentTurn++;
+              if (currentTurn > numberOfPlayers) {
+                  currentTurn = 1;
+              }
+              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+
+          }
+      });
+
+      deck.setBounds(50, 100, 200, 100);
+      card.setBounds(50, 250, 200, 100);
+      cardPanel.add(deck);
+      cardPanel.add(card);
+>>>>>>> Stashed changes
     }
 
     public void refresh() {

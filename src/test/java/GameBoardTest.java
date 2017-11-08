@@ -63,7 +63,11 @@ public class GameBoardTest {
         assertEquals(deck.getSize(), 60);
     }
 
+<<<<<<< Updated upstream
     // test to make sure players start on the first tile.
+=======
+   // test to make sure players start on the first tile.
+>>>>>>> Stashed changes
     @Test
     public void test_start() {
         GameBoard testboard = new GameBoard(3);

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -154,7 +155,6 @@ public class GameBoard extends JPanel {
 
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
-        cardPanel.setSize(400,1000);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.4;
@@ -238,18 +238,25 @@ public class GameBoard extends JPanel {
     }
 
     private static void addDeck(JPanel cardPanel){
-      cardPanel.setLayout(null);
+      cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.PAGE_AXIS));
+      cardPanel.setMinimumSize(new Dimension(400, 1000));
+      cardPanel.setMinimumSize(new Dimension(400, 1000));
+
       JPanel deck = new JPanel();
       deck.setBackground(Color.WHITE);
       deck.setLayout(new GridBagLayout());
+      deck.setMaximumSize(new Dimension (200, 100));
+      deck.setMinimumSize(new Dimension (200, 100));
 
       JPanel card = new JPanel();
       card.setBackground(Color.WHITE);
       card.setLayout(new GridBagLayout());
+      card.setMaximumSize(new Dimension (200, 100));
+      card.setMinimumSize(new Dimension (200, 100));
 
-      JLabel deckLabel = new JLabel("Deck");
-      deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
-      deck.add(deckLabel);
+      //JLabel deckLabel = new JLabel("Deck");
+      //deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
+      //deck.add(deckLabel);
 
       JLabel doubleText = new JLabel("2x");
       doubleText.setFont(doubleText.getFont().deriveFont(64f));
@@ -265,6 +272,39 @@ public class GameBoard extends JPanel {
       goToMiddleText.setFont(goToMiddleText.getFont().deriveFont(24f));
       card.add(goToMiddleText);
       goToMiddleText.setVisible(false);
+
+      JPanel deckPanel = new JPanel();
+      deckPanel.setMaximumSize(new Dimension(400, 400));
+      deckPanel.setMinimumSize(new Dimension(400, 400));
+      deckPanel.setBackground(Color.PINK);
+      deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.PAGE_AXIS));
+      deckPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+      TitledBorder deckTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Deck");
+      deckTitle.setTitleJustification(TitledBorder.LEFT);
+      deckPanel.setBorder(deckTitle);
+      deckPanel.add(Box.createRigidArea(new Dimension(0,50)));
+      deckPanel.add(deck);
+      deckPanel.add(Box.createRigidArea(new Dimension(0,50)));
+      deckPanel.add(card);
+
+      JPanel playerPanel = new JPanel();
+      playerPanel.setBackground(Color.PINK);
+      playerPanel.setMaximumSize(new Dimension(400, 600));
+      playerPanel.setMinimumSize(new Dimension(400, 600));
+      playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.PAGE_AXIS));
+      playerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+      TitledBorder playerTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Player Information");
+      playerTitle.setTitleJustification(TitledBorder.LEFT);
+      playerPanel.setBorder(playerTitle);
+
+      JTextArea playerInfo = new JTextArea();
+      playerPanel.add(playerInfo);
+      playerInfo.setEditable(false);
+
+      cardPanel.add(deckPanel);
+      cardPanel.add(playerPanel);
 
       deck.addMouseListener(new MouseAdapter() {
           @Override
@@ -318,6 +358,8 @@ public class GameBoard extends JPanel {
                   //TODO: set flag to move player to middle
                 }
                 else{
+                  goToMiddleText.setVisible(false);
+                  skipTurnText.setVisible(false);
                   doubleText.setVisible(false);
                   JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
                 }
@@ -332,11 +374,8 @@ public class GameBoard extends JPanel {
 
           }
       });
-
-      deck.setBounds(50, 100, 200, 100);
-      card.setBounds(50, 250, 200, 100);
-      cardPanel.add(deck);
-      cardPanel.add(card);
+      //deck.setBounds(50, 100, 200, 100);
+      //card.setBounds(50, 250, 200, 100);
     }
 
     public static void refresh() {

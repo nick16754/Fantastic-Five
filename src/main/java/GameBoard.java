@@ -22,8 +22,9 @@ public class GameBoard extends JPanel {
     private JFrame _frame = new JFrame("World of Sweets");
 
     private JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
-    private LinkedList<Tile> tileList = new LinkedList<>();
+
     private ArrayList<Player> playerList = new ArrayList<>();
+    private ArrayList<Tile> tileList;
 
     private WoSDeck cardDeck = new WoSDeck();
 
@@ -50,44 +51,8 @@ public class GameBoard extends JPanel {
         colors.add(Color.ORANGE);
 
 
-        // Build the path of the game board
-        //todo: clean this up
-        tileList.add(new Tile(tiles[1][0], 1, 0));
-        tileList.add(new Tile(tiles[1][1], 1, 1));
-        tileList.add(new Tile(tiles[2][1], 2, 1));
-        tileList.add(new Tile(tiles[3][1], 3, 1));
-        tileList.add(new Tile(tiles[4][1], 4, 1));
-        tileList.add(new Tile(tiles[5][1], 5, 1));
-        tileList.add(new Tile(tiles[6][1], 6, 1));
-        tileList.add(new Tile(tiles[7][1], 7, 1));
-        tileList.add(new Tile(tiles[8][1], 8, 1));
-        tileList.add(new Tile(tiles[9][1], 9, 1));
-        tileList.add(new Tile(tiles[9][2], 9, 2));
-        tileList.add(new Tile(tiles[9][3], 9, 3));
-        tileList.add(new Tile(tiles[8][3], 8, 3));
-        tileList.add(new Tile(tiles[7][3], 7, 3));
-        tileList.add(new Tile(tiles[6][3], 6, 3));
-        tileList.add(new Tile(tiles[5][3], 5, 3));
-        tileList.add(new Tile(tiles[4][3], 4, 3));
-        tileList.add(new Tile(tiles[3][3], 3, 3));
-        tileList.add(new Tile(tiles[2][3], 2, 3));
-        tileList.add(new Tile(tiles[2][4], 2, 4));
-        tileList.add(new Tile(tiles[2][5], 2, 5));
-        tileList.add(new Tile(tiles[2][6], 2, 6));
-        tileList.add(new Tile(tiles[2][7], 2, 7));
-        tileList.add(new Tile(tiles[3][7], 3, 7));
-        tileList.add(new Tile(tiles[4][7], 4, 7));
-        tileList.add(new Tile(tiles[5][7], 5, 7));
-        tileList.add(new Tile(tiles[5][6], 5, 6));
-        tileList.add(new Tile(tiles[5][5], 5, 5));
-        tileList.add(new Tile(tiles[6][5], 6, 5));
-        tileList.add(new Tile(tiles[7][5], 7, 5));
-        tileList.add(new Tile(tiles[7][6], 7, 6));
-        tileList.add(new Tile(tiles[7][7], 7, 7));
-        tileList.add(new Tile(tiles[7][8], 7, 8));
-        tileList.add(new Tile(tiles[7][9], 7, 9));
+        tileList = generateTileList();
 
-        //tileList.get(i).getPanel().setBackground();
         // cycle the rest of the colors
         int colorCounter = 0;
         for (int i = 1; i < tileList.size() - 1; i++) {
@@ -101,27 +66,12 @@ public class GameBoard extends JPanel {
         }
 
 
-        // Paint the remaining tiles a gray background color
-        //todo: Fix this
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-//                if ((!validX.contains(i)) && (!validY.contains(j))) {
-//                    tiles[i][j].setBackground(Color.BLUE);
-//                    System.out.println("x"+i+",y"+j);
-//
-//                }
-            }
-        }
-
-
-        // Place placeholder piece on first square
+        // Place each player's token
         for (Player p : playerList) {
             p.moveToTile(this, tileList.get(0));
         }
 
         _frame.setVisible(true);
-
-
     }
 
     private void create_board() {
@@ -154,7 +104,7 @@ public class GameBoard extends JPanel {
 
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
-        cardPanel.setSize(400,1000);
+        cardPanel.setSize(400, 1000);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 0.4;
@@ -237,70 +187,106 @@ public class GameBoard extends JPanel {
         addDeck(cardPanel);
     }
 
-    private void addDeck(JPanel cardPanel){
-      cardPanel.setLayout(null);
-      JPanel deck = new JPanel();
-      deck.setBackground(Color.WHITE);
-      deck.setLayout(new GridBagLayout());
+    private void addDeck(JPanel cardPanel) {
+        cardPanel.setLayout(null);
+        JPanel deck = new JPanel();
+        deck.setBackground(Color.WHITE);
+        deck.setLayout(new GridBagLayout());
 
-      JPanel card = new JPanel();
-      card.setBackground(Color.WHITE);
-      card.setLayout(new GridBagLayout());
+        JPanel card = new JPanel();
+        card.setBackground(Color.WHITE);
+        card.setLayout(new GridBagLayout());
 
-      JLabel deckLabel = new JLabel("Deck");
-      deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
-      deck.add(deckLabel);
+        JLabel deckLabel = new JLabel("Deck");
+        deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
+        deck.add(deckLabel);
 
-      JLabel doubleText = new JLabel("2x");
-      doubleText.setFont(doubleText.getFont().deriveFont(64f));
-      card.add(doubleText);
-      doubleText.setVisible(false);
+        JLabel doubleText = new JLabel("2x");
+        doubleText.setFont(doubleText.getFont().deriveFont(64f));
+        card.add(doubleText);
+        doubleText.setVisible(false);
 
-      deck.addMouseListener(new MouseAdapter() {
-          @Override
-          public void mousePressed(MouseEvent e) {
-              //System.out.println(cardDeck.getSize());
-              System.out.println("Card Drawn");
-              WoSCard newCard = cardDeck.drawCard();
-              if(newCard.getColor().equals("red")){
-                card.setBackground(Color.RED);
-              }
-              else if(newCard.getColor().equals("yellow")){
-                card.setBackground(Color.YELLOW);
-              }
-              else if(newCard.getColor().equals("blue")){
-                card.setBackground(Color.BLUE);
-              }
-              else if(newCard.getColor().equals("green")){
-                card.setBackground(Color.GREEN);
-              }
-              else if(newCard.getColor().equals("orange")){
-                card.setBackground(Color.ORANGE);
-              }
+        deck.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //System.out.println(cardDeck.getSize());
+                System.out.println("Card Drawn");
+                WoSCard newCard = cardDeck.drawCard();
+                if (newCard.getColor().equals("red")) {
+                    card.setBackground(Color.RED);
+                } else if (newCard.getColor().equals("yellow")) {
+                    card.setBackground(Color.YELLOW);
+                } else if (newCard.getColor().equals("blue")) {
+                    card.setBackground(Color.BLUE);
+                } else if (newCard.getColor().equals("green")) {
+                    card.setBackground(Color.GREEN);
+                } else if (newCard.getColor().equals("orange")) {
+                    card.setBackground(Color.ORANGE);
+                }
 
-              if(newCard.getDoubleCard()){
-                doubleText.setVisible(true);
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getColor());
-              }
-              else{
-                doubleText.setVisible(false);
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
-              }
+                if (newCard.getDoubleCard()) {
+                    doubleText.setVisible(true);
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getColor());
+                } else {
+                    doubleText.setVisible(false);
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getColor());
+                }
 
-              // Cycle Turns
-              currentTurn++;
-              if (currentTurn > numberOfPlayers) {
-                  currentTurn = 1;
-              }
-              JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+                // Cycle Turns
+                currentTurn++;
+                if (currentTurn > numberOfPlayers) {
+                    currentTurn = 1;
+                }
+                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
 
-          }
-      });
+            }
+        });
 
-      deck.setBounds(50, 100, 200, 100);
-      card.setBounds(50, 250, 200, 100);
-      cardPanel.add(deck);
-      cardPanel.add(card);
+        deck.setBounds(50, 100, 200, 100);
+        card.setBounds(50, 250, 200, 100);
+        cardPanel.add(deck);
+        cardPanel.add(card);
+    }
+
+    private ArrayList<Tile> generateTileList() {
+        System.out.println("Generating Tile List");
+        ArrayList<Tile> t = new ArrayList<>();
+        t.add(new Tile(tiles[1][0], 1, 0));
+        t.add(new Tile(tiles[1][1], 1, 1));
+        t.add(new Tile(tiles[2][1], 2, 1));
+        t.add(new Tile(tiles[3][1], 3, 1));
+        t.add(new Tile(tiles[4][1], 4, 1));
+        t.add(new Tile(tiles[5][1], 5, 1));
+        t.add(new Tile(tiles[6][1], 6, 1));
+        t.add(new Tile(tiles[7][1], 7, 1));
+        t.add(new Tile(tiles[8][1], 8, 1));
+        t.add(new Tile(tiles[9][1], 9, 1));
+        t.add(new Tile(tiles[9][2], 9, 2));
+        t.add(new Tile(tiles[9][3], 9, 3));
+        t.add(new Tile(tiles[8][3], 8, 3));
+        t.add(new Tile(tiles[7][3], 7, 3));
+        t.add(new Tile(tiles[6][3], 6, 3));
+        t.add(new Tile(tiles[5][3], 5, 3));
+        t.add(new Tile(tiles[4][3], 4, 3));
+        t.add(new Tile(tiles[3][3], 3, 3));
+        t.add(new Tile(tiles[2][3], 2, 3));
+        t.add(new Tile(tiles[2][4], 2, 4));
+        t.add(new Tile(tiles[2][5], 2, 5));
+        t.add(new Tile(tiles[2][6], 2, 6));
+        t.add(new Tile(tiles[2][7], 2, 7));
+        t.add(new Tile(tiles[3][7], 3, 7));
+        t.add(new Tile(tiles[4][7], 4, 7));
+        t.add(new Tile(tiles[5][7], 5, 7));
+        t.add(new Tile(tiles[5][6], 5, 6));
+        t.add(new Tile(tiles[5][5], 5, 5));
+        t.add(new Tile(tiles[6][5], 6, 5));
+        t.add(new Tile(tiles[7][5], 7, 5));
+        t.add(new Tile(tiles[7][6], 7, 6));
+        t.add(new Tile(tiles[7][7], 7, 7));
+        t.add(new Tile(tiles[7][8], 7, 8));
+        t.add(new Tile(tiles[7][9], 7, 9));
+
+        return t;
     }
 
     public void refresh() {
@@ -316,5 +302,14 @@ public class GameBoard extends JPanel {
 
     public void test_quit() {
         System.exit(0);
+    }
+
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public ArrayList<Tile> getTileList() {
+        return tileList;
     }
 }

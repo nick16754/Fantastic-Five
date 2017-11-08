@@ -260,6 +260,7 @@ public class GameBoard extends JPanel {
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
         playerInfo.setEditable(false);
+        playerInfo.append("There are currently "+numberOfPlayers+" players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
 
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);

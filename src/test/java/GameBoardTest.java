@@ -6,21 +6,32 @@ import org.mockito.*;
 import static org.mockito.Mockito.*;
 
 public class GameBoardTest {
+
+    // Assure colors are in right order
+    // Assure every tile has a color
+    // Test the AddDeck function that all special cards and right cards are in the deck
+    // Check size of the frame and make sure the frame is centered
+    // Check dimensions of deck and card panel
+    // Check color of deck and card
+    // Assure player moves to write space with movePlayer()
+    // Correctly display win message
+    
+
+    // Test assures the right amount of players are on the board
     @Test
     public void GameBoardOfFivePlayersResultsInPlayerListSize5() {
         GameBoard testboard = new GameBoard(5);
         assertEquals(testboard.getPlayerList().size(), 5);
     }
 
-    // test assures gameboard displays all 34 tiles
-
+    // Test assures gameboard displays all 34 tiles
     @Test
     public void test_gmae_board_tiles() {
         GameBoard testboard2 = new GameBoard(5);
         assertEquals(testboard2.getTileList().size(), 34);
     }
 
-    // test ensures that we return the players correct name
+    // Test assures that we return the players correct name
     @Test
     public void test_player_name() {
         Piece game_piece = new Piece("placeholder_piece.png");
@@ -29,7 +40,8 @@ public class GameBoardTest {
         assertEquals("player 1", p.getName());
     }
 
-    // test that correct number of game pieces are on correct tiles.
+    // MODIFY
+    // Test assures that players are on starting space
     @Test
     public void test_tile_pieces() {
         GameBoard testboard = new GameBoard(3);
@@ -37,7 +49,7 @@ public class GameBoardTest {
 
     }
 
-    // makes sure we can remove a piece
+    // Test assures we can remove a piece
     @Test
     public void test_remove_pieces() {
         GameBoard testboard = new GameBoard(3);
@@ -46,14 +58,14 @@ public class GameBoardTest {
         assertEquals(2, testboard.getTileList().get(0).getCurrentPieces().size());
     }
 
-    // makes sure deck has 60 cards to start with
+    // Test assures deck has 60 cards to start with
     @Test
     public void test_fill_deck() {
         WoSDeck deck = new WoSDeck();
         assertEquals(deck.getSize(), 68);
     }
 
-    //ensure that deck refills.
+    // Test assures that deck refills.
     @Test
     public void test_refill_deck() {
         WoSDeck deck = new WoSDeck();
@@ -63,7 +75,7 @@ public class GameBoardTest {
         assertEquals(deck.getSize(), 68);
     }
 
-    // test to make sure players start on the first tile.
+    // Test assures players start on the first tile.
     @Test
     public void test_start() {
         GameBoard testboard = new GameBoard(3);

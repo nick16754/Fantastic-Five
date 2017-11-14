@@ -50,7 +50,7 @@ public class GameBoardTest {
     @Test
     public void test_fill_deck() {
         WoSDeck deck = new WoSDeck();
-        assertEquals(deck.getSize(), 60);
+        assertEquals(deck.getSize(), 68);
     }
 
     //ensure that deck refills.
@@ -58,9 +58,9 @@ public class GameBoardTest {
     public void test_refill_deck() {
         WoSDeck deck = new WoSDeck();
         WoSCard card;
-        for (int i = 0; i < 60; i++)
+        for (int i = 0; i < 68; i++)
             card = deck.drawCard();
-        assertEquals(deck.getSize(), 60);
+        assertEquals(deck.getSize(), 68);
     }
 
     // test to make sure players start on the first tile.

@@ -12,7 +12,7 @@ public class GameBoardTest {
         assertEquals(testboard.getPlayerList().size(), 5);
     }
 
-    //test assures gameboard displays all 34 tiles
+    // test assures gameboard displays all 34 tiles
 
     @Test
     public void test_gmae_board_tiles() {
@@ -70,6 +70,4 @@ public class GameBoardTest {
         assertEquals(testboard.getPlayerList().get(0).getCurrentTile().getxCoord(), 1);
         assertEquals(testboard.getPlayerList().get(0).getCurrentTile().getyCoord(), 0);
     }
-
-
 }

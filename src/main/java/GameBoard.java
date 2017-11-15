@@ -62,7 +62,7 @@ public class GameBoard extends JPanel {
             if (colorCounter >= 5) {
                 colorCounter = 0;
             }
-            if(i == 6 || i == 24 || i == 13)
+            if(i == 6 || i == 24 || i == 13 || i == 20 || i == 32)
             {
               tileList.get(i).setColor(Color.WHITE);
               System.out.println("I am here");
@@ -127,7 +127,7 @@ public class GameBoard extends JPanel {
 
         // Create all of the subpanels
         for (int i = 0; i < (TILES_X * TILES_Y); i++) {
-            if (i == 79 || i == 0 || i == 51 || i == 17 || i == 83) {
+            if (i == 79 || i == 0 || i == 51 || i == 17 || i == 83 || i == 13 || i == 75) {
                 try {
                     BufferedImage image = ImageIO.read(new File(photo_input(i)));
                     JPanel sub = new JPanel() {
@@ -470,6 +470,12 @@ public class GameBoard extends JPanel {
 
         }else if (i == 83){
           return "src/assets/halloween_magic_lollipop.png";
+
+        }else if (i == 13){
+          return "src/assets/Jelly_Beans.png";
+
+        }else if (i == 75){
+          return "src/assets/twizzlers-100x100.jpg";
 
         }else
             return "src/assets/house-th.png";

@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 
 public class GameBoard extends JPanel {
-
+    
     private final int WINDOW_HEIGHT = 1000;
     private final int WINDOW_WIDTH = 1400;
 

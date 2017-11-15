@@ -7,6 +7,8 @@ import static org.mockito.Mockito.*;
 
 public class GameBoardTest {
 
+    // Assure starting space is special image
+    // Assure end space is special image
     // Assure colors are in right order
     // Assure every tile has a color
     // Test the AddDeck function that all special cards and right cards are in the deck

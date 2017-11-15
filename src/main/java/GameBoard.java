@@ -56,15 +56,23 @@ public class GameBoard extends JPanel {
 
         // cycle the rest of the colors
         int colorCounter = 0;
+        System.out.println(tileList.size());
         for (int i = 1; i < tileList.size() - 1; i++) {
 
             if (colorCounter >= 5) {
                 colorCounter = 0;
             }
-
-            tileList.get(i).getPanel().setBackground(colors.get(colorCounter));
-            tileList.get(i).setColor(colors.get(colorCounter));
-            colorCounter++;
+            if(i == 6 || i == 24 || i == 13)
+            {
+              tileList.get(i).setColor(Color.WHITE);
+              System.out.println("I am here");
+            }
+            else
+            {
+              tileList.get(i).getPanel().setBackground(colors.get(colorCounter));
+              tileList.get(i).setColor(colors.get(colorCounter));
+              colorCounter++;
+            }
         }
 
 
@@ -119,7 +127,7 @@ public class GameBoard extends JPanel {
 
         // Create all of the subpanels
         for (int i = 0; i < (TILES_X * TILES_Y); i++) {
-            if (i == 79 || i == 10) {
+            if (i == 79 || i == 0 || i == 51 || i == 17 || i == 83) {
                 try {
                     BufferedImage image = ImageIO.read(new File(photo_input(i)));
                     JPanel sub = new JPanel() {
@@ -398,40 +406,45 @@ public class GameBoard extends JPanel {
     private ArrayList<Tile> generateTileList() {
         System.out.println("Generating Tile List");
         ArrayList<Tile> t = new ArrayList<>();
-        t.add(new Tile(tiles[1][0], 1, 0, 0));
-        t.add(new Tile(tiles[1][1], 1, 1, 1));
-        t.add(new Tile(tiles[2][1], 2, 1, 2));
-        t.add(new Tile(tiles[3][1], 3, 1, 3));
-        t.add(new Tile(tiles[4][1], 4, 1, 4));
-        t.add(new Tile(tiles[5][1], 5, 1, 5));
-        t.add(new Tile(tiles[6][1], 6, 1, 6));
-        t.add(new Tile(tiles[7][1], 7, 1, 7));
-        t.add(new Tile(tiles[8][1], 8, 1, 8));
-        t.add(new Tile(tiles[9][1], 9, 1, 9));
-        t.add(new Tile(tiles[9][2], 9, 2, 10));
-        t.add(new Tile(tiles[9][3], 9, 3, 11));
-        t.add(new Tile(tiles[8][3], 8, 3, 12));
-        t.add(new Tile(tiles[7][3], 7, 3, 13));
-        t.add(new Tile(tiles[6][3], 6, 3, 14));
-        t.add(new Tile(tiles[5][3], 5, 3, 15));
-        t.add(new Tile(tiles[4][3], 4, 3, 16));
-        t.add(new Tile(tiles[3][3], 3, 3, 17));
-        t.add(new Tile(tiles[2][3], 2, 3, 18));
-        t.add(new Tile(tiles[2][4], 2, 4, 19));
-        t.add(new Tile(tiles[2][5], 2, 5, 20));
-        t.add(new Tile(tiles[2][6], 2, 6, 21));
-        t.add(new Tile(tiles[2][7], 2, 7, 22));
-        t.add(new Tile(tiles[3][7], 3, 7, 23));
-        t.add(new Tile(tiles[4][7], 4, 7, 24));
-        t.add(new Tile(tiles[5][7], 5, 7, 25));
-        t.add(new Tile(tiles[5][6], 5, 6, 26));
-        t.add(new Tile(tiles[5][5], 5, 5, 27));
-        t.add(new Tile(tiles[6][5], 6, 5, 28));
-        t.add(new Tile(tiles[7][5], 7, 5, 29));
-        t.add(new Tile(tiles[7][6], 7, 6, 30));
-        t.add(new Tile(tiles[7][7], 7, 7, 31));
-        t.add(new Tile(tiles[7][8], 7, 8, 32));
-        t.add(new Tile(tiles[7][9], 7, 9, 33));
+        t.add(new Tile(tiles[0][0], 0, 0, 0));
+        t.add(new Tile(tiles[0][1], 0, 1, 1));
+        t.add(new Tile(tiles[1][1], 1, 1, 2));
+        t.add(new Tile(tiles[2][1], 2, 1, 3));
+        t.add(new Tile(tiles[3][1], 3, 1, 4));
+        t.add(new Tile(tiles[4][1], 4, 1, 5));
+        t.add(new Tile(tiles[5][1], 5, 1, 6));
+        t.add(new Tile(tiles[6][1], 6, 1, 7));
+        t.add(new Tile(tiles[7][1], 7, 1, 8));
+        t.add(new Tile(tiles[8][1], 8, 1, 9));
+        t.add(new Tile(tiles[9][1], 9, 1, 10));
+        t.add(new Tile(tiles[9][2], 9, 2, 11));
+        t.add(new Tile(tiles[9][3], 9, 3, 12));
+        t.add(new Tile(tiles[8][3], 8, 3, 13));
+        t.add(new Tile(tiles[7][3], 7, 3, 14));
+        t.add(new Tile(tiles[6][3], 6, 3, 15));
+        t.add(new Tile(tiles[5][3], 5, 3, 16));
+        t.add(new Tile(tiles[4][3], 4, 3, 17));
+        t.add(new Tile(tiles[3][3], 3, 3, 18));
+        t.add(new Tile(tiles[2][3], 2, 3, 19));
+        t.add(new Tile(tiles[1][3], 1, 3, 20));
+        t.add(new Tile(tiles[1][4], 1, 4, 21));
+        t.add(new Tile(tiles[1][5], 1, 5, 22));
+        t.add(new Tile(tiles[1][6], 1, 6, 23));
+        t.add(new Tile(tiles[1][7], 1, 7, 24));
+        t.add(new Tile(tiles[2][7], 2, 3, 25));
+        t.add(new Tile(tiles[3][7], 3, 7, 26));
+        t.add(new Tile(tiles[4][7], 4, 7, 27));
+        t.add(new Tile(tiles[5][7], 5, 7, 28));
+        t.add(new Tile(tiles[5][6], 5, 6, 29));
+        t.add(new Tile(tiles[5][5], 5, 5, 30));
+        t.add(new Tile(tiles[6][5], 6, 5, 31));
+        t.add(new Tile(tiles[7][5], 7, 5, 32));
+        t.add(new Tile(tiles[7][6], 7, 6, 33));
+        t.add(new Tile(tiles[7][7], 7, 7, 34));
+        t.add(new Tile(tiles[7][8], 7, 8, 35));
+        t.add(new Tile(tiles[6][8], 6, 8, 36));
+        t.add(new Tile(tiles[6][9], 6, 9, 37));
+        t.add(new Tile(tiles[7][9], 7, 9, 38));
 
         return t;
     }
@@ -447,9 +460,18 @@ public class GameBoard extends JPanel {
     }
 
     public String photo_input(int i) {
-        if (i == 10) {
+        if (i == 0) {
             return "src/assets/Home_tile.png";
-        } else
+        }
+        else if (i == 51){
+          return "src/assets/56595-ice-cream-cone-inflatable__31827.1492709410.jpg";
+        } else if (i == 17){
+          return "src/assets/Gummy bear.jpg";
+
+        }else if (i == 83){
+          return "src/assets/halloween_magic_lollipop.png";
+
+        }else
             return "src/assets/house-th.png";
     }
 

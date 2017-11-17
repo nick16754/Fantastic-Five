@@ -306,6 +306,7 @@ public class GameBoard extends JPanel {
         deck.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                boolean skipped_flag = false;
                 //System.out.println(cardDeck.getSize());
                 System.out.println("Card Drawn");
                 WoSCard newCard = cardDeck.drawCard();
@@ -345,6 +346,7 @@ public class GameBoard extends JPanel {
                         goToGummyBearText.setVisible(false);
                         goToJellyBeansText.setVisible(false);
                         goToIceCreamConeText.setVisible(false);
+                        skipped_flag = true;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
                     } else if (newCard.getCardType() == "goToLicorice") {
                         goToLicoriceText.setVisible(true);
@@ -354,8 +356,8 @@ public class GameBoard extends JPanel {
                         goToIceCreamConeText.setVisible(false);
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
+                        skipped_flag = false;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Licorice tile.");
-                        movePlayer(playerList.get(currentTurn), newCard);
                     } else if (newCard.getCardType() == "goToLollipop") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(true);
@@ -364,8 +366,8 @@ public class GameBoard extends JPanel {
                         goToIceCreamConeText.setVisible(false);
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
+                        skipped_flag = false;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Lollipop tile.");
-                        movePlayer(playerList.get(currentTurn), newCard);
                     } else if (newCard.getCardType() == "goToGummyBear") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -374,8 +376,8 @@ public class GameBoard extends JPanel {
                         goToIceCreamConeText.setVisible(false);
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
+                        skipped_flag = false;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Gummy Bear tile.");
-                        movePlayer(playerList.get(currentTurn), newCard);
                     } else if (newCard.getCardType() == "goToJellyBeans") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -384,8 +386,8 @@ public class GameBoard extends JPanel {
                         goToIceCreamConeText.setVisible(false);
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
+                        skipped_flag = false;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Jelly Beans tile.");
-                        movePlayer(playerList.get(currentTurn), newCard);
                     } else if (newCard.getCardType() == "goToIceCreamCone") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -394,8 +396,8 @@ public class GameBoard extends JPanel {
                         goToIceCreamConeText.setVisible(true);
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
+                        skipped_flag = false;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Ice Cream Cone tile.");
-                        movePlayer(playerList.get(currentTurn), newCard);
                     }
                     // Single color card
                     else {
@@ -406,12 +408,14 @@ public class GameBoard extends JPanel {
                         goToIceCreamConeText.setVisible(false);
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
+                        skipped_flag = false;
                         JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
                     }
                 }
-
-                System.out.println("Moving player index " + (currentTurn - 1));
-                movePlayer(playerList.get(currentTurn - 1), newCard);
+                if (!skipped_flag) {
+                  System.out.println("Moving player index " + (currentTurn - 1));
+                  movePlayer(playerList.get(currentTurn - 1), newCard);
+                }
                 System.out.println("Validating");
                 refresh();
 

@@ -1,6 +1,6 @@
 public class WoSCard{
   private boolean doubleCard; //does card move one or two spaces (false for special cards)
-  private String typeCard; //color or special (Skip Turn or Go To Middle)
+  private String typeCard; //color or special (Skip Turn or "Go to [X]" cards)
 
   public WoSCard(boolean number, String colorOrSpecial){
     this.doubleCard = number;

@@ -551,6 +551,7 @@ public class GameBoard extends JPanel {
 
                 if (!success) {
                     showWinDialog(p);
+                    System.out.println();
                 }
             }
         }

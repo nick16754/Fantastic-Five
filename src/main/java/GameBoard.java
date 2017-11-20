@@ -124,7 +124,7 @@ public class GameBoard extends JPanel {
         _frame.add(MainPanel);
 
         GridLayout experimentLayout = new GridLayout(TILES_X, TILES_Y);
-        MainPanel.setLayout(new GridBagLayout());
+        MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.X_AXIS));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
 
@@ -508,7 +508,7 @@ public class GameBoard extends JPanel {
             p.moveToTile(this, tileList.get(24));
         } else if (card.getCardType() == "goToLicorice") {
             p.moveToTile(this, tileList.get(32));
-        } else if (p.getCurrentTile().getIndex() < tileList.size() - 5) {
+        } else if (p.getCurrentTile().getIndex() < tileList.size() - 6) {
             if (card.getDoubleCard()) {
                 boolean skipped = false;
                 for (int i = playerCurrentTile + 1; i < getTileList().size(); i++) {

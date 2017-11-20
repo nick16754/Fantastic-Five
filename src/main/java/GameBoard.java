@@ -35,6 +35,10 @@ public class GameBoard extends JPanel {
 
     private WoSDeck cardDeck = new WoSDeck();
 
+    private JLabel timer;
+
+    private long playtime = 0;
+
     // Constructor
     public GameBoard(SaveState s) {
         numberOfPlayers = s.getPlayerList().size();
@@ -43,9 +47,12 @@ public class GameBoard extends JPanel {
         cardDeck = s.getCardDeck();
         currentTurn = s.getCurrentTurn();
 
-
         create_board();
         initialize();
+
+        Runnable gt = new GameTimer(s.getTime(), this);
+        Thread t = new Thread(gt);
+        t.start();
 
         int i = 1;
         for (Player p : playerList) {
@@ -65,6 +72,10 @@ public class GameBoard extends JPanel {
         }
         create_board();
         initialize();
+
+        Runnable gt = new GameTimer(0, this);
+        Thread t = new Thread(gt);
+        t.start();
 
         // Place each player's token
         for (Player p : playerList) {
@@ -122,6 +133,8 @@ public class GameBoard extends JPanel {
         JPanel MainPanel = new JPanel();
 
         _frame.add(MainPanel);
+
+        timer = new JLabel();
 
         GridLayout experimentLayout = new GridLayout(TILES_X, TILES_Y);
         MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.X_AXIS));
@@ -342,6 +355,9 @@ public class GameBoard extends JPanel {
             }
         });
         savePanel.add(saveButton);
+
+        timer.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        playerPanel.add(timer);
 
         TitledBorder saveTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Save Panel");
         saveTitle.setTitleJustification(TitledBorder.LEFT);
@@ -672,6 +688,24 @@ public class GameBoard extends JPanel {
         return tileList;
     }
 
+    public void updateTimer(long ms) {
+        int minutes = 0;
+        int seconds = 0;
+
+        playtime = ms;
+
+        while (ms > 60000) {
+            minutes++;
+            ms-=60000;
+        }
+        while (ms > 1000) {
+            seconds++;
+            ms-=1000;
+        }
+
+        timer.setText("Play Time: " + minutes + " minutes, " + seconds + " seconds.");
+    }
+
 
 
 
@@ -680,7 +714,7 @@ public class GameBoard extends JPanel {
         try {
             Writer writer = new FileWriter(saveName + ".json");
 
-            SaveState s = new SaveState(playerList, cardDeck, currentTurn);
+            SaveState s = new SaveState(playerList, cardDeck, currentTurn, playtime);
             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
             g.toJson(s, writer);
 
@@ -691,7 +725,6 @@ public class GameBoard extends JPanel {
         }
 
     }
-
 
 
 }

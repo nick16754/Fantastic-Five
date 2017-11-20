@@ -6,12 +6,14 @@ public class SaveState {
     private WoSDeck cardDeck = new WoSDeck();
 
     private int currentTurn;
+    private long time;
 
 
-    public SaveState(ArrayList<Player> p, WoSDeck w, int currentTurn) {
+    public SaveState(ArrayList<Player> p, WoSDeck w, int currentTurn, long ms) {
         this.playerList = p;
         this.cardDeck = w;
         this.currentTurn = currentTurn;
+        this.time = ms;
     }
 
     public ArrayList<Player> getPlayerList() {
@@ -24,5 +26,9 @@ public class SaveState {
 
     public int getCurrentTurn() {
         return currentTurn;
+    }
+
+    public long getTime() {
+        return time;
     }
 }

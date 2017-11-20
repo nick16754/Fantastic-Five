@@ -33,6 +33,23 @@ public class GameBoard extends JPanel {
     private WoSDeck cardDeck = new WoSDeck();
 
     // Constructor
+    public GameBoard(SaveState s) {
+        numberOfPlayers = s.getPlayerList().size();
+
+        playerList = s.getPlayerList();
+        cardDeck = s.getCardDeck();
+
+
+        create_board();
+        initialize();
+
+        for (Player p : playerList) {
+            p.setPiece(new Piece("placeholder_piece.png"));
+            p.moveToTile(this, tileList.get(p.getCurrentTileIndex()));
+        }
+
+    }
+
     public GameBoard(int players) {
         numberOfPlayers = players;
 
@@ -43,7 +60,10 @@ public class GameBoard extends JPanel {
         create_board();
         initialize();
 
-        saveGame();
+        // Place each player's token
+        for (Player p : playerList) {
+            p.moveToTile(this, tileList.get(0));
+        }
     }
 
 
@@ -78,12 +98,6 @@ public class GameBoard extends JPanel {
               tileList.get(i).setColor(colors.get(colorCounter));
               colorCounter++;
             }
-        }
-
-
-        // Place each player's token
-        for (Player p : playerList) {
-            p.moveToTile(this, tileList.get(0));
         }
 
         _frame.setVisible(true);
@@ -505,20 +519,17 @@ public class GameBoard extends JPanel {
     private void saveGame() {
 
         try {
-            Writer writer = new FileWriter("Output.json");
+            Writer writer = new FileWriter("save.json");
 
-            SaveState s = new SaveState(tileList, playerList, cardDeck);
-            Gson g = new GsonBuilder().create();
-            g.toJson(this, System.out);
+            SaveState s = new SaveState(playerList, cardDeck);
+            Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
+            g.toJson(s, writer);
 
             writer.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
 
     }
 

@@ -46,9 +46,11 @@ public class GameBoard extends JPanel {
         create_board();
         initialize();
 
+        int i = 1;
         for (Player p : playerList) {
-            p.setPiece(new Piece("placeholder_piece.png"));
+            p.setPiece(new Piece("piece"+i+".png"));
             p.moveToTile(this, tileList.get(p.getCurrentTileIndex()));
+            i++;
         }
 
     }
@@ -58,7 +60,7 @@ public class GameBoard extends JPanel {
 
         for (int i = 1; i < players + 1; i++) {
             String player_name = String.format("Player %s", String.valueOf(i));
-            playerList.add(new Player(player_name, new Piece("placeholder_piece.png")));
+            playerList.add(new Player(player_name, new Piece("piece"+i+".png")));
         }
         create_board();
         initialize();

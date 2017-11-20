@@ -20,7 +20,10 @@ public class WorldOfSweets {
             }
 
             try {
-                if (saveName.length() > 0 && saveName.endsWith(".json")) {
+                if (saveName.length() > 0) {
+                    if (!saveName.endsWith(".json")) {
+                        saveName = saveName + ".json";
+                    }
                     File f = new File(saveName);
                     if (f.exists()) {
                         Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
@@ -29,6 +32,8 @@ public class WorldOfSweets {
 
                         GameBoard ga = new GameBoard(s);
 
+                    } else {
+                        System.out.println("Save file not found");
                     }
                 }
 

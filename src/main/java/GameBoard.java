@@ -300,7 +300,17 @@ public class GameBoard extends JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveGame();
+                boolean valid = false;
+                String saveName = "";
+                while (!valid) {
+                    saveName = JOptionPane.showInputDialog("Enter save name: ");
+
+                    if ((saveName.length() > 0) && (!saveName.contains("."))) {
+                        valid = true;
+                    }
+                }
+
+                saveGame(saveName);
             }
         });
         savePanel.add(saveButton);
@@ -542,10 +552,10 @@ public class GameBoard extends JPanel {
 
 
 
-    private void saveGame() {
+    private void saveGame(String saveName) {
 
         try {
-            Writer writer = new FileWriter("save.json");
+            Writer writer = new FileWriter(saveName + ".json");
 
             SaveState s = new SaveState(playerList, cardDeck);
             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();

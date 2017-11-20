@@ -40,6 +40,7 @@ public class GameBoard extends JPanel {
 
         playerList = s.getPlayerList();
         cardDeck = s.getCardDeck();
+        currentTurn = s.getCurrentTurn();
 
 
         create_board();
@@ -656,7 +657,7 @@ public class GameBoard extends JPanel {
         try {
             Writer writer = new FileWriter(saveName + ".json");
 
-            SaveState s = new SaveState(playerList, cardDeck);
+            SaveState s = new SaveState(playerList, cardDeck, currentTurn);
             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
             g.toJson(s, writer);
 

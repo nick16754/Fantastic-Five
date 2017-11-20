@@ -216,10 +216,6 @@ public class GameBoard extends JPanel {
         card.setMaximumSize(new Dimension(200, 100));
         card.setMinimumSize(new Dimension(200, 100));
 
-        //JLabel deckLabel = new JLabel("Deck");
-        //deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
-        //deck.add(deckLabel);
-
         JLabel doubleText = new JLabel("2x");
         doubleText.setFont(doubleText.getFont().deriveFont(24f));
         doubleText.setMaximumSize(new Dimension(200, 100));
@@ -450,8 +446,18 @@ public class GameBoard extends JPanel {
     }
 
     public void showWinDialog(Player p) {
-        JOptionPane.showMessageDialog(new JFrame(), "Player " + p.getName() + " wins!");
-        System.exit(0);
+        JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!");
+        String[] options = {"Yes", "No"};
+        numberOfPlayers--;
+        playerList.remove(p);
+        int yesOrNo = 0;
+        if(numberOfPlayers > 1){
+          yesOrNo = JOptionPane.showOptionDialog(new JFrame(), "Would you like to keep playing?", "Play for second?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        }
+
+        if(yesOrNo == 1){
+          System.exit(0);
+        }
     }
 
     public void refresh() {

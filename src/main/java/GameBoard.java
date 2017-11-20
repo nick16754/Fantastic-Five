@@ -523,6 +523,10 @@ public class GameBoard extends JPanel {
                         }
                     }
                 }
+                if(skipped)
+                {
+                  showWinDialog(p);
+                }
             } else {
                 for (int i = playerCurrentTile + 1; i < getTileList().size(); i++) {
                     if (getTileList().get(i).getColor() == target) {

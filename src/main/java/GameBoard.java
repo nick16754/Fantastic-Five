@@ -363,7 +363,17 @@ public class GameBoard extends JPanel {
         saveTitle.setTitleJustification(TitledBorder.LEFT);
         savePanel.setBorder(saveTitle);
 
+        JPanel timerPanel = new JPanel();
+        timerPanel.setBackground(Color.PINK);
+        timerPanel.setMaximumSize(new Dimension(400, 50));
+        timerPanel.setMinimumSize(new Dimension(400, 50));
+        timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.PAGE_AXIS));
+        timerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        timerPanel.add(timer);
 
+        TitledBorder timerTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Timer Panel");
+        timerTitle.setTitleJustification(TitledBorder.LEFT);
+        timerPanel.setBorder(timerTitle);
 
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
@@ -373,6 +383,7 @@ public class GameBoard extends JPanel {
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);
         cardPanel.add(savePanel);
+        cardPanel.add(timerPanel);
 
         deck.addMouseListener(new MouseAdapter() {
             @Override

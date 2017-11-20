@@ -24,6 +24,7 @@ public class GameBoard extends JPanel {
 
     private int currentTurn = 1;
     private int numberOfPlayers;
+    private int finishedPlayers = 0;
 
     private JFrame _frame = new JFrame("World of Sweets");
 
@@ -240,10 +241,6 @@ public class GameBoard extends JPanel {
         card.setMaximumSize(new Dimension(200, 100));
         card.setMinimumSize(new Dimension(200, 100));
 
-        //JLabel deckLabel = new JLabel("Deck");
-        //deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
-        //deck.add(deckLabel);
-
         JLabel doubleText = new JLabel("2x");
         doubleText.setFont(doubleText.getFont().deriveFont(24f));
         doubleText.setMaximumSize(new Dimension(200, 100));
@@ -355,7 +352,7 @@ public class GameBoard extends JPanel {
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
         playerInfo.setEditable(false);
-        playerInfo.append("There are currently " + numberOfPlayers + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
+        playerInfo.append("There are currently " + playerList.size() + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
 
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);
@@ -392,7 +389,7 @@ public class GameBoard extends JPanel {
                     goToGummyBearText.setVisible(false);
                     goToJellyBeansText.setVisible(false);
                     goToIceCreamConeText.setVisible(false);
-                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getCardType());
+                    JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " drew a double " + newCard.getCardType());
                 }
                 // Single color or special card
                 else {
@@ -405,7 +402,7 @@ public class GameBoard extends JPanel {
                         goToJellyBeansText.setVisible(false);
                         goToIceCreamConeText.setVisible(false);
                         skipped_flag = true;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + "'s turn is skipped.");
                     } else if (newCard.getCardType() == "goToLicorice") {
                         goToLicoriceText.setVisible(true);
                         goToLollipopText.setVisible(false);
@@ -415,7 +412,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Licorice tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Licorice tile.");
                     } else if (newCard.getCardType() == "goToLollipop") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(true);
@@ -425,7 +422,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Lollipop tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Lollipop tile.");
                     } else if (newCard.getCardType() == "goToGummyBear") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -435,7 +432,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Gummy Bear tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Gummy Bear tile.");
                     } else if (newCard.getCardType() == "goToJellyBeans") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -445,7 +442,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Jelly Beans tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Jelly Beans tile.");
                     } else if (newCard.getCardType() == "goToIceCreamCone") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -455,7 +452,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Ice Cream Cone tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Ice Cream Cone tile.");
                     }
                     // Single color card
                     else {
@@ -467,7 +464,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " drew a single " + newCard.getCardType());
                     }
                 }
                 if (!skipped_flag) {
@@ -479,10 +476,10 @@ public class GameBoard extends JPanel {
 
                 // Cycle Turns
                 currentTurn++;
-                if (currentTurn > numberOfPlayers) {
+                if (currentTurn > playerList.size()) {
                     currentTurn = 1;
                 }
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+                JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName()+ "'s Turn!");
             }
         });
     }
@@ -607,8 +604,27 @@ public class GameBoard extends JPanel {
     }
 
     public void showWinDialog(Player p) {
-        JOptionPane.showMessageDialog(new JFrame(), "Player " + p.getName() + " wins!");
-        System.exit(0);
+        playerList.remove(p);
+        if(numberOfPlayers-playerList.size() == 1) {
+          JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!");
+        }
+        else if(numberOfPlayers-playerList.size() == 2) {
+          JOptionPane.showMessageDialog(new JFrame(), p.getName() + " finished in second place!");
+        }
+        else {
+          JOptionPane.showMessageDialog(new JFrame(), p.getName() + " finished in third place!");
+        }
+        p.moveToTile(this, tileList.get(tileList.size()-1));
+
+        String[] options = {"Yes", "No"};
+        int yesOrNo = 0;
+        if(playerList.size() > 1){
+          yesOrNo = JOptionPane.showOptionDialog(new JFrame(), "Would you like to keep playing?", "Keep Going?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        }
+
+        if(yesOrNo == 1 || playerList.size() == 1){
+          System.exit(0);
+        }
     }
 
     public void refresh() {

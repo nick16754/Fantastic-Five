@@ -11,37 +11,57 @@ public class WorldOfSweets {
 
     public static void main(String[] args) {
 
-        String saveName = "";
-        if (args.length == 0) {
-            GameBoard g = new GameBoard(promptNumberPlayers());
-        } else {
-            if (args.length == 1) {
-                saveName = args[0];
-            }
+        JFrame frame = new JFrame("World of Sweets");
+        Object[] options = {"New Game", "Load Game"};
+        int n = JOptionPane.showOptionDialog(frame,
+                "Welcome!",
+                "World of Sweets",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,     //do not use a custom Icon
+                options,  //the titles of buttons
+                options[0]); //default button title
 
-            try {
+
+        // If we hit new game
+        if (n == 0) {
+            GameBoard g = new GameBoard(promptNumberPlayers());
+        } else if (n == 1) {
+
+            boolean valid = false;
+            String saveName = "";
+
+            while (!valid) {
+                saveName = JOptionPane.showInputDialog("Enter save name: ");
+
                 if (saveName.length() > 0) {
                     if (!saveName.endsWith(".json")) {
                         saveName = saveName + ".json";
                     }
                     File f = new File(saveName);
-                    if (f.exists()) {
-                        Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
-                        JsonReader reader = new JsonReader(new FileReader(saveName));
-                        SaveState s = g.fromJson(reader, SaveState.class);
 
-                        GameBoard ga = new GameBoard(s);
+                    if ((saveName.length() > 0) && f.exists()) {
+                        valid = true;
 
-                    } else {
-                        System.out.println("Save file not found");
+                        try {
+                            Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
+                            JsonReader reader = new JsonReader(new FileReader(saveName));
+                            SaveState s = g.fromJson(reader, SaveState.class);
+
+                            GameBoard ga = new GameBoard(s);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            valid = false;
+                        }
+                    }
+
+                    if (!f.exists()) {
+                        System.out.println("File not found");
                     }
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(-1);
             }
         }
+
 
 
 
@@ -50,7 +70,7 @@ public class WorldOfSweets {
     public static int promptNumberPlayers() {
         int num_players = -1;
         while (num_players < 0) {
-            String user_input = JOptionPane.showInputDialog("Welcome to World of Sweets!!! Please enter number of players: ");
+            String user_input = JOptionPane.showInputDialog("Please enter number of players: ");
             try {
                 num_players = Integer.parseInt(user_input);
                 if (num_players < 2 || num_players > 4) {

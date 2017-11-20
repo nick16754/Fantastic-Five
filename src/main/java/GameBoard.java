@@ -1,6 +1,11 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -31,6 +36,23 @@ public class GameBoard extends JPanel {
     private WoSDeck cardDeck = new WoSDeck();
 
     // Constructor
+    public GameBoard(SaveState s) {
+        numberOfPlayers = s.getPlayerList().size();
+
+        playerList = s.getPlayerList();
+        cardDeck = s.getCardDeck();
+
+
+        create_board();
+        initialize();
+
+        for (Player p : playerList) {
+            p.setPiece(new Piece("placeholder_piece.png"));
+            p.moveToTile(this, tileList.get(p.getCurrentTileIndex()));
+        }
+
+    }
+
     public GameBoard(int players) {
         numberOfPlayers = players;
 
@@ -40,6 +62,11 @@ public class GameBoard extends JPanel {
         }
         create_board();
         initialize();
+
+        // Place each player's token
+        for (Player p : playerList) {
+            p.moveToTile(this, tileList.get(0));
+        }
     }
 
 
@@ -74,12 +101,6 @@ public class GameBoard extends JPanel {
               tileList.get(i).setColor(colors.get(colorCounter));
               colorCounter++;
             }
-        }
-
-
-        // Place each player's token
-        for (Player p : playerList) {
-            p.moveToTile(this, tileList.get(0));
         }
 
         _frame.setVisible(true);
@@ -283,14 +304,47 @@ public class GameBoard extends JPanel {
 
         JPanel playerPanel = new JPanel();
         playerPanel.setBackground(Color.PINK);
-        playerPanel.setMaximumSize(new Dimension(400, 600));
-        playerPanel.setMinimumSize(new Dimension(400, 600));
+        playerPanel.setMaximumSize(new Dimension(400, 550));
+        playerPanel.setMinimumSize(new Dimension(400, 550));
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.PAGE_AXIS));
         playerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         TitledBorder playerTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Player Information");
         playerTitle.setTitleJustification(TitledBorder.LEFT);
         playerPanel.setBorder(playerTitle);
+
+
+        JPanel savePanel = new JPanel();
+        savePanel.setBackground(Color.PINK);
+        savePanel.setMaximumSize(new Dimension(400, 50));
+        savePanel.setMinimumSize(new Dimension(400, 50));
+        savePanel.setLayout(new BoxLayout(savePanel, BoxLayout.PAGE_AXIS));
+        savePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JButton saveButton = new JButton("Save Game");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean valid = false;
+                String saveName = "";
+                while (!valid) {
+                    saveName = JOptionPane.showInputDialog("Enter save name: ");
+
+                    if ((saveName.length() > 0) && (!saveName.contains("."))) {
+                        valid = true;
+                    }
+                }
+
+                saveGame(saveName);
+            }
+        });
+        savePanel.add(saveButton);
+
+        TitledBorder saveTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Save Panel");
+        saveTitle.setTitleJustification(TitledBorder.LEFT);
+        savePanel.setBorder(saveTitle);
+
+
 
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
@@ -299,6 +353,7 @@ public class GameBoard extends JPanel {
 
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);
+        cardPanel.add(savePanel);
 
         deck.addMouseListener(new MouseAdapter() {
             @Override
@@ -608,4 +663,27 @@ public class GameBoard extends JPanel {
     public ArrayList<Tile> getTileList() {
         return tileList;
     }
+
+
+
+
+    private void saveGame(String saveName) {
+
+        try {
+            Writer writer = new FileWriter(saveName + ".json");
+
+            SaveState s = new SaveState(playerList, cardDeck);
+            Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
+            g.toJson(s, writer);
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 }

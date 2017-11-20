@@ -15,9 +15,9 @@ public class GameBoardTest {
     //test assures gameboard displays all 34 tiles
 
     @Test
-    public void test_gmae_board_tiles() {
+    public void test_game_board_tiles() {
         GameBoard testboard2 = new GameBoard(5);
-        assertEquals(testboard2.getTileList().size(), 34);
+        assertEquals(testboard2.getTileList().size(), 39);
     }
 
     // test ensures that we return the players correct name
@@ -50,7 +50,7 @@ public class GameBoardTest {
     @Test
     public void test_fill_deck() {
         WoSDeck deck = new WoSDeck();
-        assertEquals(deck.getSize(), 68);
+        assertEquals(deck.getSize(), 70);
     }
 
     //ensure that deck refills.
@@ -58,16 +58,16 @@ public class GameBoardTest {
     public void test_refill_deck() {
         WoSDeck deck = new WoSDeck();
         WoSCard card;
-        for (int i = 0; i < 68; i++)
+        for (int i = 0; i < 70; i++)
             card = deck.drawCard();
-        assertEquals(deck.getSize(), 68);
+        assertEquals(deck.getSize(), 70);
     }
 
     // test to make sure players start on the first tile.
     @Test
     public void test_start() {
         GameBoard testboard = new GameBoard(3);
-        assertEquals(testboard.getPlayerList().get(0).getCurrentTile().getxCoord(), 1);
+        assertEquals(testboard.getPlayerList().get(0).getCurrentTile().getxCoord(), 0);
         assertEquals(testboard.getPlayerList().get(0).getCurrentTile().getyCoord(), 0);
     }
 

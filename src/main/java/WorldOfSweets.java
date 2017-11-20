@@ -1,11 +1,50 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
+import java.io.File;
+import java.io.FileReader;
 
 public class WorldOfSweets {
 
     public static void main(String[] args) {
 
-        GameBoard g = new GameBoard(promptNumberPlayers());
+        String saveName = "";
+        if (args.length == 0) {
+            GameBoard g = new GameBoard(promptNumberPlayers());
+        } else {
+            if (args.length == 1) {
+                saveName = args[0];
+            }
+
+            try {
+                if (saveName.length() > 0) {
+                    if (!saveName.endsWith(".json")) {
+                        saveName = saveName + ".json";
+                    }
+                    File f = new File(saveName);
+                    if (f.exists()) {
+                        Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
+                        JsonReader reader = new JsonReader(new FileReader(saveName));
+                        SaveState s = g.fromJson(reader, SaveState.class);
+
+                        GameBoard ga = new GameBoard(s);
+
+                    } else {
+                        System.out.println("Save file not found");
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+
+
+
     }
 
     public static int promptNumberPlayers() {

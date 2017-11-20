@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -39,6 +42,8 @@ public class GameBoard extends JPanel {
         }
         create_board();
         initialize();
+
+        saveGame();
     }
 
 
@@ -493,4 +498,30 @@ public class GameBoard extends JPanel {
     public ArrayList<Tile> getTileList() {
         return tileList;
     }
+
+
+
+
+    private void saveGame() {
+
+        try {
+            Writer writer = new FileWriter("Output.json");
+
+            SaveState s = new SaveState(tileList, playerList, cardDeck);
+            Gson g = new GsonBuilder().create();
+            g.toJson(this, System.out);
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
+
 }

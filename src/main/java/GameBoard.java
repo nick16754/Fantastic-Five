@@ -295,7 +295,7 @@ public class GameBoard extends JPanel {
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
         playerInfo.setEditable(false);
-        playerInfo.append("There are currently " + numberOfPlayers + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
+        playerInfo.append("There are currently " + playerList.size() + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
 
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);
@@ -418,7 +418,7 @@ public class GameBoard extends JPanel {
 
                 // Cycle Turns
                 currentTurn++;
-                if (currentTurn > numberOfPlayers) {
+                if (currentTurn > playerList.size()) {
                     currentTurn = 1;
                 }
                 JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName()+ "'s Turn!");
@@ -546,11 +546,11 @@ public class GameBoard extends JPanel {
     }
 
     public void showWinDialog(Player p) {
-        finishedPlayers++;
-        if(finishedPlayers == 1) {
+        playerList.remove(p);
+        if(numberOfPlayers-playerList.size() == 1) {
           JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!");
         }
-        else if(finishedPlayers == 2) {
+        else if(numberOfPlayers-playerList.size() == 2) {
           JOptionPane.showMessageDialog(new JFrame(), p.getName() + " finished in second place!");
         }
         else {
@@ -559,14 +559,12 @@ public class GameBoard extends JPanel {
         p.moveToTile(this, tileList.get(tileList.size()-1));
 
         String[] options = {"Yes", "No"};
-        numberOfPlayers--;
-        playerList.remove(p);
         int yesOrNo = 0;
-        if(numberOfPlayers > 1){
+        if(playerList.size() > 1){
           yesOrNo = JOptionPane.showOptionDialog(new JFrame(), "Would you like to keep playing?", "Keep Going?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         }
 
-        if(yesOrNo == 1 || numberOfPlayers == 1){
+        if(yesOrNo == 1 || playerList.size() == 1){
           System.exit(0);
         }
     }

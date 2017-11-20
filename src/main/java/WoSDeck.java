@@ -49,11 +49,12 @@ public class WoSDeck{
       WoSCard newCard = new WoSCard(false, "skipTurn");
       deck.add(newCard);
     }
-    // For loop for adding goToMiddle cards to deck
-    for (int g = 0; g < 3; g++){
-      WoSCard newCard = new WoSCard(false, "goToMiddle");
-      deck.add(newCard);
-    }
+    // Add the five "Go To [X]" cards to the deck
+    deck.add(new WoSCard(false, "goToLollipop"));
+    deck.add(new WoSCard(false, "goToLicorice"));
+    deck.add(new WoSCard(false, "goToGummyBear"));
+    deck.add(new WoSCard(false, "goToIceCreamCone"));
+    deck.add(new WoSCard(false, "goToJellyBeans"));
   }
 
   public WoSCard drawCard(){

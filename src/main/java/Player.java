@@ -1,7 +1,10 @@
+import com.google.gson.annotations.Expose;
+
 public class Player {
 
     private String playerName;
     private Piece piece;
+    private int currentTileIndex;
 
     private Tile currentTile;
 
@@ -26,6 +29,8 @@ public class Player {
         currentTile.revalidate();
         currentTile.repaint();
 
+        currentTileIndex = currentTile.getIndex();
+
         g.revalidate();
     }
 
@@ -41,6 +46,10 @@ public class Player {
 
     public Tile getCurrentTile() {
         return currentTile;
+    }
+
+    public int getCurrentTileIndex() {
+        return currentTileIndex;
     }
 
 

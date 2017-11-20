@@ -47,10 +47,12 @@ public class GameBoard extends JPanel {
         cardDeck = s.getCardDeck();
         currentTurn = s.getCurrentTurn();
 
-
-
         create_board();
         initialize();
+
+        Runnable gt = new GameTimer(s.getTime(), this);
+        Thread t = new Thread(gt);
+        t.start();
 
         int i = 1;
         for (Player p : playerList) {

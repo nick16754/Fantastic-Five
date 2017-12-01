@@ -24,6 +24,7 @@ public class GameBoard extends JPanel {
 
     private int currentTurn = 1;
     private int numberOfPlayers;
+    private int finishedPlayers = 0;
 
     private JFrame _frame = new JFrame("World of Sweets");
 
@@ -34,20 +35,30 @@ public class GameBoard extends JPanel {
 
     private WoSDeck cardDeck = new WoSDeck();
 
+    private JLabel timer;
+
+    private long playtime = 0;
+
     // Constructor
     public GameBoard(SaveState s) {
         numberOfPlayers = s.getPlayerList().size();
 
         playerList = s.getPlayerList();
         cardDeck = s.getCardDeck();
-
+        currentTurn = s.getCurrentTurn();
 
         create_board();
         initialize();
 
+        Runnable gt = new GameTimer(s.getTime(), this);
+        Thread t = new Thread(gt);
+        t.start();
+
+        int i = 1;
         for (Player p : playerList) {
-            p.setPiece(new Piece("placeholder_piece.png"));
+            p.setPiece(new Piece("piece"+i+".png"));
             p.moveToTile(this, tileList.get(p.getCurrentTileIndex()));
+            i++;
         }
 
     }
@@ -57,10 +68,14 @@ public class GameBoard extends JPanel {
 
         for (int i = 1; i < players + 1; i++) {
             String player_name = String.format("Player %s", String.valueOf(i));
-            playerList.add(new Player(player_name, new Piece("placeholder_piece.png")));
+            playerList.add(new Player(player_name, new Piece("piece"+i+".png")));
         }
         create_board();
         initialize();
+
+        Runnable gt = new GameTimer(0, this);
+        Thread t = new Thread(gt);
+        t.start();
 
         // Place each player's token
         for (Player p : playerList) {
@@ -119,8 +134,10 @@ public class GameBoard extends JPanel {
 
         _frame.add(MainPanel);
 
+        timer = new JLabel();
+
         GridLayout experimentLayout = new GridLayout(TILES_X, TILES_Y);
-        MainPanel.setLayout(new GridBagLayout());
+        MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.X_AXIS));
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
 
@@ -237,10 +254,6 @@ public class GameBoard extends JPanel {
         card.setMaximumSize(new Dimension(200, 100));
         card.setMinimumSize(new Dimension(200, 100));
 
-        //JLabel deckLabel = new JLabel("Deck");
-        //deckLabel.setFont(deckLabel.getFont().deriveFont(64f));
-        //deck.add(deckLabel);
-
         JLabel doubleText = new JLabel("2x");
         doubleText.setFont(doubleText.getFont().deriveFont(24f));
         doubleText.setMaximumSize(new Dimension(200, 100));
@@ -343,20 +356,34 @@ public class GameBoard extends JPanel {
         });
         savePanel.add(saveButton);
 
+        timer.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        playerPanel.add(timer);
+
         TitledBorder saveTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Save Panel");
         saveTitle.setTitleJustification(TitledBorder.LEFT);
         savePanel.setBorder(saveTitle);
 
+        JPanel timerPanel = new JPanel();
+        timerPanel.setBackground(Color.PINK);
+        timerPanel.setMaximumSize(new Dimension(400, 50));
+        timerPanel.setMinimumSize(new Dimension(400, 50));
+        timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.PAGE_AXIS));
+        timerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        timerPanel.add(timer);
 
+        TitledBorder timerTitle = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Timer Panel");
+        timerTitle.setTitleJustification(TitledBorder.LEFT);
+        timerPanel.setBorder(timerTitle);
 
         JTextArea playerInfo = new JTextArea();
         playerPanel.add(playerInfo);
         playerInfo.setEditable(false);
-        playerInfo.append("There are currently " + numberOfPlayers + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
+        playerInfo.append("There are currently " + playerList.size() + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
 
         cardPanel.add(deckPanel);
         cardPanel.add(playerPanel);
         cardPanel.add(savePanel);
+        cardPanel.add(timerPanel);
 
         deck.addMouseListener(new MouseAdapter() {
             @Override
@@ -389,7 +416,7 @@ public class GameBoard extends JPanel {
                     goToGummyBearText.setVisible(false);
                     goToJellyBeansText.setVisible(false);
                     goToIceCreamConeText.setVisible(false);
-                    JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a double " + newCard.getCardType());
+                    JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " drew a double " + newCard.getCardType());
                 }
                 // Single color or special card
                 else {
@@ -402,7 +429,7 @@ public class GameBoard extends JPanel {
                         goToJellyBeansText.setVisible(false);
                         goToIceCreamConeText.setVisible(false);
                         skipped_flag = true;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s turn is skipped.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + "'s turn is skipped.");
                     } else if (newCard.getCardType() == "goToLicorice") {
                         goToLicoriceText.setVisible(true);
                         goToLollipopText.setVisible(false);
@@ -412,7 +439,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Licorice tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Licorice tile.");
                     } else if (newCard.getCardType() == "goToLollipop") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(true);
@@ -422,7 +449,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Lollipop tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Lollipop tile.");
                     } else if (newCard.getCardType() == "goToGummyBear") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -432,7 +459,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Gummy Bear tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Gummy Bear tile.");
                     } else if (newCard.getCardType() == "goToJellyBeans") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -442,7 +469,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Jelly Beans tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Jelly Beans tile.");
                     } else if (newCard.getCardType() == "goToIceCreamCone") {
                         goToLicoriceText.setVisible(false);
                         goToLollipopText.setVisible(false);
@@ -452,7 +479,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " goes to the Ice Cream Cone tile.");
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " goes to the Ice Cream Cone tile.");
                     }
                     // Single color card
                     else {
@@ -464,7 +491,7 @@ public class GameBoard extends JPanel {
                         skipTurnText.setVisible(false);
                         doubleText.setVisible(false);
                         skipped_flag = false;
-                        JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + " drew a single " + newCard.getCardType());
+                        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName() + " drew a single " + newCard.getCardType());
                     }
                 }
                 if (!skipped_flag) {
@@ -476,10 +503,10 @@ public class GameBoard extends JPanel {
 
                 // Cycle Turns
                 currentTurn++;
-                if (currentTurn > numberOfPlayers) {
+                if (currentTurn > playerList.size()) {
                     currentTurn = 1;
                 }
-                JOptionPane.showMessageDialog(new JFrame(), "Player " + currentTurn + "'s Turn!");
+                JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn-1).getName()+ "'s Turn!");
             }
         });
     }
@@ -508,7 +535,7 @@ public class GameBoard extends JPanel {
             p.moveToTile(this, tileList.get(24));
         } else if (card.getCardType() == "goToLicorice") {
             p.moveToTile(this, tileList.get(32));
-        } else if (p.getCurrentTile().getIndex() < tileList.size() - 5) {
+        } else if (p.getCurrentTile().getIndex() < tileList.size() - 6) {
             if (card.getDoubleCard()) {
                 boolean skipped = false;
                 for (int i = playerCurrentTile + 1; i < getTileList().size(); i++) {
@@ -609,8 +636,27 @@ public class GameBoard extends JPanel {
     }
 
     public void showWinDialog(Player p) {
-        JOptionPane.showMessageDialog(new JFrame(), "Player " + p.getName() + " wins!");
-        System.exit(0);
+        playerList.remove(p);
+        if(numberOfPlayers-playerList.size() == 1) {
+          JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!");
+        }
+        else if(numberOfPlayers-playerList.size() == 2) {
+          JOptionPane.showMessageDialog(new JFrame(), p.getName() + " finished in second place!");
+        }
+        else {
+          JOptionPane.showMessageDialog(new JFrame(), p.getName() + " finished in third place!");
+        }
+        p.moveToTile(this, tileList.get(tileList.size()-1));
+
+        String[] options = {"Yes", "No"};
+        int yesOrNo = 0;
+        if(playerList.size() > 1){
+          yesOrNo = JOptionPane.showOptionDialog(new JFrame(), "Would you like to keep playing?", "Keep Going?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        }
+
+        if(yesOrNo == 1 || playerList.size() == 1){
+          System.exit(0);
+        }
     }
 
     public void refresh() {
@@ -653,6 +699,24 @@ public class GameBoard extends JPanel {
         return tileList;
     }
 
+    public void updateTimer(long ms) {
+        int minutes = 0;
+        int seconds = 0;
+
+        playtime = ms;
+
+        while (ms > 60000) {
+            minutes++;
+            ms-=60000;
+        }
+        while (ms > 1000) {
+            seconds++;
+            ms-=1000;
+        }
+
+        timer.setText("Play Time: " + minutes + " minutes, " + seconds + " seconds.");
+    }
+
 
 
 
@@ -661,7 +725,7 @@ public class GameBoard extends JPanel {
         try {
             Writer writer = new FileWriter(saveName + ".json");
 
-            SaveState s = new SaveState(playerList, cardDeck);
+            SaveState s = new SaveState(playerList, cardDeck, currentTurn, playtime);
             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
             g.toJson(s, writer);
 
@@ -672,7 +736,6 @@ public class GameBoard extends JPanel {
         }
 
     }
-
 
 
 }

@@ -8,15 +8,15 @@ import static org.mockito.Mockito.*;
 public class GameBoardTest {
     @Test
     public void GameBoardOfFivePlayersResultsInPlayerListSize5() {
-        GameBoard testboard = new GameBoard(5);
-        assertEquals(testboard.getPlayerList().size(), 5);
+        GameBoard testboard = new GameBoard(4);
+        assertEquals(testboard.getPlayerList().size(), 4);
     }
 
     //test assures gameboard displays all 34 tiles
 
     @Test
     public void test_game_board_tiles() {
-        GameBoard testboard2 = new GameBoard(5);
+        GameBoard testboard2 = new GameBoard(4);
         assertEquals(testboard2.getTileList().size(), 39);
     }
 

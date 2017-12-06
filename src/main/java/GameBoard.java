@@ -81,33 +81,37 @@ public class GameBoard extends JPanel {
 
     // Prompts user for player name and AI status for each player and populates playerList with new Player if valid
     private void populatePlayerList(int players) {
-        String[] options = {"No","Yes"};
         for (int i = 1; i < players + 1; i++) {
             boolean valid_player = false;
             while (!valid_player) {
-                String player_name = JOptionPane.showInputDialog("Please enter player "+i+"'s name.");
-                String is_ai = JOptionPane.showInputDialog("Is player"+i+" AI?",
-                                                          JOptionPane.QUESTION_MESSAGE,
-                                                          null,
-                                                          options,
-                                                          options[0]);
-                try {
-                    if (player_name.length() == 0 || player_name == null) {
-                        valid_player = false;
-                        throw new Exception();
+              // setup input fields for current player
+              JTextArea textArea = new JTextArea(5, 100);
+              textArea.setText("");
+              JTextField name_input = new JTextField();
+              final JCheckBox ai_checkbox = new JCheckBox();
+              Object[] input_fields = {"Please enter player "+i+"'s name:", name_input,
+                      "Check if player is AI", ai_checkbox};
+              boolean is_ai = false;
+              int option = JOptionPane.showConfirmDialog(this, input_fields, "Add Player", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+              if (option == JOptionPane.OK_OPTION) {
+                    String player_name = name_input.getText();
+                    textArea.setText(player_name);
+                    try {
+                        if (player_name.length() != 0 && player_name != null) {
+                            this.playerList.add(new Player(player_name, new Piece("piece"+i+".png"), ai_checkbox.isSelected()));
+                            valid_player = true;
+                        }
+                        else {
+                            valid_player = false;
+                            throw new Exception();
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "Player name cannot be blank.",
+                                "Invalid input",
+                                JOptionPane.ERROR_MESSAGE);
                     }
-                    if (is_ai == options[0]) {
-                      this.playerList.add(new Player(player_name, new Piece("piece"+i+".png"), false));
-                    }
-                    else {
-                      this.playerList.add(new Player(player_name, new Piece("piece"+i+".png"), true));
-                    }
-                    valid_player = true;
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "Player name cannot be blank.",
-                            "Invalid input",
-                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }

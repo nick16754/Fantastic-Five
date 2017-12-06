@@ -67,6 +67,10 @@ public class WorldOfSweets {
 
     }
 
+    public static int promptGameMode() {
+      
+    }
+
     public static int promptNumberPlayers() {
         int num_players = -1;
         while (num_players < 0) {

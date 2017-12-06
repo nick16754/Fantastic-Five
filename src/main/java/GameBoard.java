@@ -65,11 +65,7 @@ public class GameBoard extends JPanel {
 
     public GameBoard(int players) {
         numberOfPlayers = players;
-
-        for (int i = 1; i < players + 1; i++) {
-            String player_name = String.format("Player %s", String.valueOf(i));
-            playerList.add(new Player(player_name, new Piece("piece"+i+".png")));
-        }
+        populatePlayerList(players);
         create_board();
         initialize();
 
@@ -83,6 +79,32 @@ public class GameBoard extends JPanel {
         }
     }
 
+    private void populatePlayerList(int players) {
+        for (int i = 1; i < players + 1; i++) {
+            boolean valid_player = false;
+            while (!valid_player) {
+                String player_name = JOptionPane.showInputDialog("Please enter player "+i+"'s name.");
+                JCheckBox checkbox = new JCheckBox("Check box if AI player.");
+                try {
+                    if (player_name.length() == 0 || player_name == NULL) {
+                        valid_player = false;
+                        throw new Exception();
+                    }
+                    playerList.add(new Player(player_name, new Piece("piece"+i+".png"), checkbox.isSelected());
+                    valid_player = true;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Number name cannot be blank.",
+                            "Invalid input.",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private String promptPlayerName() {
+
+    }
 
     private void initialize() {
         // Initialize color pattern for game board

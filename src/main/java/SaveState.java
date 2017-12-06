@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class SaveState {
 
+    private String mode;
+
     private ArrayList<Player> playerList = new ArrayList<>();
     private WoSDeck cardDeck = new WoSDeck();
 
@@ -9,11 +11,16 @@ public class SaveState {
     private long time;
 
 
-    public SaveState(ArrayList<Player> p, WoSDeck w, int currentTurn, long ms) {
+    public SaveState(String m, ArrayList<Player> p, WoSDeck w, int currentTurn, long ms) {
+        this.mode = m;
         this.playerList = p;
         this.cardDeck = w;
         this.currentTurn = currentTurn;
         this.time = ms;
+    }
+
+    public String getMode() {
+        return mode;
     }
 
     public ArrayList<Player> getPlayerList() {

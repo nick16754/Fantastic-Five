@@ -1,7 +1,7 @@
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class GameboardStandard extends GameBoard implements MouseListener {
 
@@ -14,7 +14,6 @@ public class GameboardStandard extends GameBoard implements MouseListener {
         super(players);
         deck.addMouseListener(this);
     }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {

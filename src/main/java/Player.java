@@ -5,9 +5,17 @@ public class Player {
     private String playerName;
     private Piece piece;
     private int currentTileIndex;
+<<<<<<< HEAD
     private boolean ai_status = false;
+<<<<<<< HEAD
     private int numberOfBoomerangs;
     private boolean ai_status;
+=======
+=======
+    private int numberOfBoomerangs;
+    private boolean ai_status;
+>>>>>>> master
+>>>>>>> origin/dietz-gameboard
 
     private Tile currentTile;
 

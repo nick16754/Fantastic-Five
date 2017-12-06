@@ -28,7 +28,8 @@ public class WorldOfSweets {
 
         // If we hit new game
         if (n == 0) {
-            GameboardStrategic g = new GameboardStrategic(promptNumberPlayers());
+            GameboardStandard g = new GameboardStandard(promptNumberPlayers());
+            //GameboardStrategic g = new GameboardStrategic(promptNumberPlayers());
         } else if (n == 1) {
 
             boolean valid = false;

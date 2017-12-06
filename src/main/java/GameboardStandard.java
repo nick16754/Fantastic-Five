@@ -12,7 +12,7 @@ public class GameboardStandard extends GameBoard implements MouseListener {
     }
 
     public GameboardStandard(int players) {
-        super(players);
+        super(players, "Standard");
         deck.addMouseListener(this);
         if(playerList.get(currentTurn-1).get_ai_status())
         {

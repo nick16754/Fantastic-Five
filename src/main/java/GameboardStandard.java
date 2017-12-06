@@ -334,15 +334,12 @@ public class GameboardStandard extends GameBoard implements MouseListener {
         if (currentTurn > playerList.size()) {
             currentTurn = 1;
         }
-<<<<<<< HEAD
-        JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn) + "'s Turn!");
-=======
+
         JOptionPane.showMessageDialog(new JFrame(), playerList.get(currentTurn - 1).getName() + "'s Turn!");
         if(playerList.get(currentTurn - 1).get_ai_status())
         {
           play_ai();
         }
->>>>>>> master
     }
 
     @Override

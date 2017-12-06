@@ -402,6 +402,10 @@ public class GameBoard extends JPanel {
         cardPanel.add(playerPanel);
         cardPanel.add(savePanel);
         cardPanel.add(timerPanel);
+        if(playerList.get(currentTurn-1).get_ai_status())
+        {
+            System.out.println("I am an AI player.");
+        }
 
         deck.addMouseListener(new MouseAdapter() {
             @Override

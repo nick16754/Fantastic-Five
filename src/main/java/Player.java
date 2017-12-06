@@ -5,7 +5,7 @@ public class Player {
     private String playerName;
     private Piece piece;
     private int currentTileIndex;
-    private boolean ai_status;
+    private boolean ai_status = false;
 
     private Tile currentTile;
 

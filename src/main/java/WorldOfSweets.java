@@ -17,19 +17,19 @@ public class WorldOfSweets {
         JFrame frame = new JFrame("World of Sweets");
         Object[] options = {"New Game", "Load Game"};
         int n = JOptionPane.showOptionDialog(frame,
-                "Welcome!",
+                "Welcome! Load a saved game or start a new one!",
                 "World of Sweets",
                 JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,     //do not use a custom Icon
-                options,  //the titles of buttons
-                options[0]); //default button title
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]);
 
 
         // If we hit new game
         if (n == 0) {
-            GameboardStrategic g = new GameboardStrategic(promptNumberPlayers());
-        } else if (n == 1) {
+            selectNewGame();
+        } else if (n == 1) { // load saved game
 
             boolean valid = false;
             String saveName = "";
@@ -89,13 +89,30 @@ public class WorldOfSweets {
                 }
             }
         }
-
-
-
-
     }
 
-    public static int promptNumberPlayers() {
+    private static void selectNewGame() {
+        JFrame selectGameFrame = new JFrame("Game Mode for World of Sweets");
+        Object[] options = {"Standard Mode", "Strategic Mode"};
+        int mode = JOptionPane.showOptionDialog(selectGameFrame,
+                "Choose Game Mode",
+                "World of Sweets",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (mode == 0){
+              new GameboardStandard(promptNumberPlayers());
+        }
+        if (mode == 1){
+              new GameboardStrategic(promptNumberPlayers());
+        }
+    }
+
+    // Asks user to enter number of players and shows error if number is invalid
+    private static int promptNumberPlayers() {
         int num_players = -1;
         while (num_players < 0) {
             String user_input = JOptionPane.showInputDialog("Please enter number of players: ");

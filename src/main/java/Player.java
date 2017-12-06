@@ -5,10 +5,16 @@ public class Player {
     private String playerName;
     private Piece piece;
     private int currentTileIndex;
+    private boolean ai_status;
 
     private Tile currentTile;
 
     // Constructor
+    public Player(String s, Piece p, boolean ai) {
+        this.playerName = s;
+        this.piece = p;
+        this.ai_status = ai;
+    }
     public Player(String s, Piece p) {
         this.playerName = s;
         this.piece = p;
@@ -51,6 +57,9 @@ public class Player {
     public int getCurrentTileIndex() {
         return currentTileIndex;
     }
+    public boolean get_ai_status(){
+      return this.ai_status;
+    }
 
 
     // Mutators
@@ -60,5 +69,8 @@ public class Player {
 
     public void setPiece(Piece s) {
         this.piece = s;
+    }
+    public void set_AiPlayer(boolean ai){
+        this.ai_status = ai;
     }
 }

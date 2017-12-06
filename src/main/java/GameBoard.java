@@ -106,6 +106,22 @@ public class GameBoard extends JPanel {
 
     }
 
+        for (int i = 1; i < players + 1; i++) {
+            String player_name = String.format("Player %s", String.valueOf(i));
+            playerList.add(new Player(player_name, new Piece("piece"+i+".png")));
+        }
+        create_board();
+        initialize();
+
+        Runnable gt = new GameTimer(0, this);
+        Thread t = new Thread(gt);
+        t.start();
+
+        // Place each player's token
+        for (Player p : playerList) {
+            p.moveToTile(this, tileList.get(0));
+        }
+    }
     private void initialize() {
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();

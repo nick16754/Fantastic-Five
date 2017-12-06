@@ -11,7 +11,7 @@ public class GameboardStandard extends GameBoard implements MouseListener {
     }
 
     public GameboardStandard(int players) {
-        super(players);
+        super(players, "Standard");
         deck.addMouseListener(this);
     }
 

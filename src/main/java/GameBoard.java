@@ -29,6 +29,8 @@ public class GameBoard extends JPanel {
     public int numberOfPlayers;
     public int finishedPlayers = 0;
 
+    public String gameMode;
+
     public JFrame _frame = new JFrame("World of Sweets");
 
     public JPanel[][] tiles = new JPanel[TILES_X][TILES_Y];
@@ -72,8 +74,10 @@ public class GameBoard extends JPanel {
 
     }
 
-    public GameBoard(int players) {
+    public GameBoard(int players, String m) {
         this.numberOfPlayers = players;
+        this.gameMode = m;
+
         populatePlayerList(players);
         create_board();
         initialize();
@@ -651,7 +655,7 @@ public class GameBoard extends JPanel {
         try {
             Writer writer = new FileWriter(saveName + ".json");
 
-            SaveState s = new SaveState(playerList, cardDeck, currentTurn, playtime);
+            SaveState s = new SaveState(gameMode, playerList, cardDeck, currentTurn, playtime);
             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
             String json = g.toJson(s);
             System.out.println(json);

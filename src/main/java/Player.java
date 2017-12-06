@@ -5,6 +5,7 @@ public class Player {
     private String playerName;
     private Piece piece;
     private int currentTileIndex;
+    private int numberOfBoomerangs;
     private boolean ai_status;
 
     private Tile currentTile;
@@ -14,10 +15,15 @@ public class Player {
         this.playerName = s;
         this.piece = p;
         this.ai_status = ai;
+
+        this.numberOfBoomerangs = 3;
     }
+
     public Player(String s, Piece p) {
         this.playerName = s;
         this.piece = p;
+
+        this.numberOfBoomerangs = 3;
     }
 
     // Actions
@@ -57,8 +63,13 @@ public class Player {
     public int getCurrentTileIndex() {
         return currentTileIndex;
     }
-    public boolean get_ai_status(){
-      return this.ai_status;
+
+    public boolean get_ai_status() {
+        return this.ai_status;
+    }
+
+    public int getNumberOfBoomerangs() {
+        return this.numberOfBoomerangs;
     }
 
 
@@ -70,7 +81,12 @@ public class Player {
     public void setPiece(Piece s) {
         this.piece = s;
     }
-    public void set_AiPlayer(boolean ai){
+
+    public void set_AiPlayer(boolean ai) {
         this.ai_status = ai;
+    }
+
+    public void decrementBoomerangs() {
+        this.numberOfBoomerangs--;
     }
 }

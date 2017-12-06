@@ -5,7 +5,7 @@ public class Player {
     private String playerName;
     private Piece piece;
     private int currentTileIndex;
-    private boolean ai_status;
+    private boolean AIstatus;
 
     private Tile currentTile;
 
@@ -13,7 +13,7 @@ public class Player {
     public Player(String s, Piece p, boolean ai) {
         this.playerName = s;
         this.piece = p;
-        this.ai_status = ai;
+        this.AIstatus = ai;
     }
     public Player(String s, Piece p) {
         this.playerName = s;
@@ -57,8 +57,8 @@ public class Player {
     public int getCurrentTileIndex() {
         return currentTileIndex;
     }
-    public boolean get_ai_status(){
-      return this.ai_status;
+    public boolean getAIstatus(){
+      return this.AIstatus;
     }
 
 
@@ -70,7 +70,7 @@ public class Player {
     public void setPiece(Piece s) {
         this.piece = s;
     }
-    public void set_AiPlayer(boolean ai){
-        this.ai_status = ai;
+    public void setAIPlayer(boolean ai){
+        this.AIstatus = ai;
     }
 }

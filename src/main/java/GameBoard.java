@@ -79,18 +79,19 @@ public class GameBoard extends JPanel {
         }
     }
 
+    // Prompts user for player name and AI status for each player and populates playerList with new Player if valid
     private void populatePlayerList(int players) {
         for (int i = 1; i < players + 1; i++) {
             boolean valid_player = false;
             while (!valid_player) {
                 String player_name = JOptionPane.showInputDialog("Please enter player "+i+"'s name.");
-                JCheckBox checkbox = new JCheckBox("Check box if AI player.");
+                JCheckBox AI_player_checkbox = new JCheckBox("Check box if AI player.");
                 try {
-                    if (player_name.length() == 0 || player_name == NULL) {
+                    if (player_name.length() == 0 || player_name == null) {
                         valid_player = false;
                         throw new Exception();
                     }
-                    playerList.add(new Player(player_name, new Piece("piece"+i+".png"), checkbox.isSelected());
+                    playerList.add(new Player(player_name, new Piece("piece"+i+".png"), AI_player_checkbox.isSelected()));
                     valid_player = true;
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(new JFrame(),
@@ -102,26 +103,6 @@ public class GameBoard extends JPanel {
         }
     }
 
-    private String promptPlayerName() {
-
-    }
-
-        for (int i = 1; i < players + 1; i++) {
-            String player_name = String.format("Player %s", String.valueOf(i));
-            playerList.add(new Player(player_name, new Piece("piece"+i+".png")));
-        }
-        create_board();
-        initialize();
-
-        Runnable gt = new GameTimer(0, this);
-        Thread t = new Thread(gt);
-        t.start();
-
-        // Place each player's token
-        for (Player p : playerList) {
-            p.moveToTile(this, tileList.get(0));
-        }
-    }
     private void initialize() {
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();

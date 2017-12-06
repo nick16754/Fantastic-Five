@@ -77,6 +77,7 @@ public class GameBoard extends JPanel {
             String player_name = String.format("Player %s", String.valueOf(i));
             playerList.add(new Player(player_name, new Piece("piece" + i + ".png")));
         }
+        playerList.get(1).setName("Dad");
         create_board();
         initialize();
 

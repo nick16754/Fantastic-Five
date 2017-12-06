@@ -46,21 +46,23 @@ public class GameBoardTest {
         assertEquals(2, testboard.getTileList().get(0).getCurrentPieces().size());
     }
 
-    // makes sure deck has 60 cards to start with
+    // makes sure deck has 70 cards to start with
     @Test
     public void test_fill_deck() {
         WoSDeck deck = new WoSDeck();
         assertEquals(deck.getSize(), 70);
     }
 
-    //ensure that deck refills.
+    //ensure that deck refills, since deck refills upon attempt to draw from an empty deck
+    //rather than immediately after empyting, one extra draw must be done, after which there
+    //will only be 69 cards in the deck
     @Test
     public void test_refill_deck() {
         WoSDeck deck = new WoSDeck();
         WoSCard card;
-        for (int i = 0; i < 70; i++)
+        for (int i = 0; i < 71; i++)
             card = deck.drawCard();
-        assertEquals(deck.getSize(), 70);
+        assertEquals(deck.getSize(), 69);
     }
 
     // test to make sure players start on the first tile.

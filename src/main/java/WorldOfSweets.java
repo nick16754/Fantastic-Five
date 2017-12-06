@@ -25,7 +25,7 @@ public class WorldOfSweets {
 
         // If we hit new game
         if (n == 0) {
-            GameBoard g = new GameBoard(promptNumberPlayers());
+            GameboardStandard g = new GameboardStandard(promptNumberPlayers());
         } else if (n == 1) {
 
             boolean valid = false;
@@ -48,7 +48,7 @@ public class WorldOfSweets {
                             JsonReader reader = new JsonReader(new FileReader(saveName));
                             SaveState s = g.fromJson(reader, SaveState.class);
 
-                            GameBoard ga = new GameBoard(s);
+                            GameboardStandard ga = new GameboardStandard(s);
                         } catch (Exception e) {
                             e.printStackTrace();
                             valid = false;

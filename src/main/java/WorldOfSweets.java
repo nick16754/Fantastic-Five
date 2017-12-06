@@ -31,6 +31,7 @@ public class WorldOfSweets {
             selectNewGame();
         } else if (n == 1) { // load saved game
 
+
             boolean valid = false;
             String saveName = "";
 

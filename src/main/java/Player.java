@@ -7,7 +7,6 @@ public class Player {
     private int currentTileIndex;
     private int numberOfBoomerangs;
     private boolean ai_status;
-
     private Tile currentTile;
 
     // Constructor

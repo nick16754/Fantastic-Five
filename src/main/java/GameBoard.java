@@ -37,7 +37,6 @@ public class GameBoard extends JPanel {
 
     public JLabel timer;
 
-    public JPanel cardPanel;
 
     public long playtime = 0;
 
@@ -111,6 +110,8 @@ public class GameBoard extends JPanel {
     }
 
     public void initialize() {
+        System.out.println("Initialize called");
+
         // Initialize color pattern for game board
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(Color.RED);
@@ -132,7 +133,6 @@ public class GameBoard extends JPanel {
             }
             if (i == 6 || i == 24 || i == 13 || i == 20 || i == 32) {
                 tileList.get(i).setColor(Color.WHITE);
-                System.out.println("I am here");
             } else {
                 tileList.get(i).getPanel().setBackground(colors.get(colorCounter));
                 tileList.get(i).setColor(colors.get(colorCounter));
@@ -144,6 +144,7 @@ public class GameBoard extends JPanel {
     }
 
     public void create_board() {
+        System.out.println("Create board called");
         // Center the frame
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) (dimension.getWidth() / 2) - (WINDOW_WIDTH / 2);
@@ -173,7 +174,7 @@ public class GameBoard extends JPanel {
         c.weighty = 1;
         MainPanel.add(subPanel, c);
 
-        JPanel cardPanel = new JPanel();
+        cardPanel = new JPanel();
         cardPanel.setBackground(Color.DARK_GRAY);
         cardPanel.setSize(400, 1000);
         c.gridx = 1;
@@ -270,12 +271,16 @@ public class GameBoard extends JPanel {
     public JPanel deckPanel;
     public JPanel playerPanel;
     public JPanel savePanel;
+    public JPanel boomerangPanel;
+    public JPanel cardPanel;
 
-    public void addDeck(JPanel cardPanel) {
-        cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.PAGE_AXIS));
-        cardPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //cardPanel.setMinimumSize(new Dimension(400, 1000));
-        //cardPanel.setMinimumSize(new Dimension(400, 1000));
+    public void addDeck(JPanel cp) {
+        System.out.println("addDeck");
+
+        cp.setLayout(new BoxLayout(cp, BoxLayout.PAGE_AXIS));
+        cp.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //cp.setMinimumSize(new Dimension(400, 1000));
+        //cp.setMinimumSize(new Dimension(400, 1000));
 
         deck = new JPanel();
         deck.setBackground(Color.WHITE);
@@ -355,8 +360,8 @@ public class GameBoard extends JPanel {
 
         playerPanel = new JPanel();
         playerPanel.setBackground(Color.PINK);
-        playerPanel.setMaximumSize(new Dimension(400, 550));
-        playerPanel.setMinimumSize(new Dimension(400, 550));
+        playerPanel.setMaximumSize(new Dimension(400, 450));
+        playerPanel.setMinimumSize(new Dimension(400, 450));
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.PAGE_AXIS));
         playerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -415,10 +420,10 @@ public class GameBoard extends JPanel {
         playerInfo.setEditable(false);
         playerInfo.append("There are currently " + playerList.size() + " players in the game.\nThe discard pile is on the bottom and the deck is on top.\nClick on the deck to draw a card.");
 
-        cardPanel.add(deckPanel);
-        cardPanel.add(playerPanel);
-        cardPanel.add(savePanel);
-        cardPanel.add(timerPanel);
+        cp.add(deckPanel);
+        cp.add(playerPanel);
+        cp.add(savePanel);
+        cp.add(timerPanel);
     }
 
 

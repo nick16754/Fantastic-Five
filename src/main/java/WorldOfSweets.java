@@ -68,7 +68,13 @@ public class WorldOfSweets {
                                     // We have a match, read the file in
                                     System.out.println("save match");
                                     SaveState s = g.fromJson(json, SaveState.class);
-                                    GameboardStandard ga = new GameboardStandard(s);
+
+                                    if (s.getMode().equalsIgnoreCase("Standard")) {
+                                        GameboardStandard ga = new GameboardStandard(s);
+                                    } else if (s.getMode().equalsIgnoreCase("Strategic")) {
+                                        GameboardStrategic ga = new GameboardStrategic(s);
+
+                                    }
                                 } else {
                                     // show file is corrupt
                                     JOptionPane.showMessageDialog(new JFrame(), "File is corrupt! Exiting...");

@@ -8,9 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
 
 
@@ -636,11 +639,22 @@ public class GameBoard extends JPanel {
 
             SaveState s = new SaveState(playerList, cardDeck, currentTurn, playtime);
             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
-            g.toJson(s, writer);
+            String json = g.toJson(s);
+            System.out.println(json);
+
+            byte[] jsonBytes = json.getBytes("UTF-8");
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            byte[] thedigest = md.digest(jsonBytes);
+
+            writer.write(json + "\n" + DatatypeConverter.printHexBinary(thedigest));
 
             writer.close();
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 

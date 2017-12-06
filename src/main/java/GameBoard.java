@@ -64,7 +64,7 @@ public class GameBoard extends JPanel {
     }
 
     public GameBoard(int players) {
-        numberOfPlayers = players;
+        this.numberOfPlayers = players;
         populatePlayerList(players);
         create_board();
         initialize();
@@ -81,22 +81,32 @@ public class GameBoard extends JPanel {
 
     // Prompts user for player name and AI status for each player and populates playerList with new Player if valid
     private void populatePlayerList(int players) {
+        String[] options = {"No","Yes"};
         for (int i = 1; i < players + 1; i++) {
             boolean valid_player = false;
             while (!valid_player) {
                 String player_name = JOptionPane.showInputDialog("Please enter player "+i+"'s name.");
-                JCheckBox AI_player_checkbox = new JCheckBox("Check box if AI player.");
+                String is_ai = JOptionPane.showInputDialog("Is player"+i+" AI?",
+                                                          JOptionPane.QUESTION_MESSAGE,
+                                                          null,
+                                                          options,
+                                                          options[0]);
                 try {
                     if (player_name.length() == 0 || player_name == null) {
                         valid_player = false;
                         throw new Exception();
                     }
-                    playerList.add(new Player(player_name, new Piece("piece"+i+".png"), AI_player_checkbox.isSelected()));
+                    if (is_ai == options[0]) {
+                      this.playerList.add(new Player(player_name, new Piece("piece"+i+".png"), false));
+                    }
+                    else {
+                      this.playerList.add(new Player(player_name, new Piece("piece"+i+".png"), true));
+                    }
                     valid_player = true;
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(new JFrame(),
-                            "Number name cannot be blank.",
-                            "Invalid input.",
+                            "Player name cannot be blank.",
+                            "Invalid input",
                             JOptionPane.ERROR_MESSAGE);
                 }
             }

@@ -4,8 +4,11 @@ import com.google.gson.stream.JsonReader;
 
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
+import javax.xml.bind.DatatypeConverter;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.security.MessageDigest;
 
 public class WorldOfSweets {
 
@@ -25,7 +28,7 @@ public class WorldOfSweets {
 
         // If we hit new game
         if (n == 0) {
-            GameboardStandard g = new GameboardStandard(promptNumberPlayers());
+            GameboardStrategic g = new GameboardStrategic(promptNumberPlayers());
         } else if (n == 1) {
 
             boolean valid = false;
@@ -45,10 +48,35 @@ public class WorldOfSweets {
 
                         try {
                             Gson g = new GsonBuilder().setExclusionStrategies(new SaveExclusionStrategy()).create();
-                            JsonReader reader = new JsonReader(new FileReader(saveName));
-                            SaveState s = g.fromJson(reader, SaveState.class);
 
-                            GameboardStandard ga = new GameboardStandard(s);
+                            BufferedReader br = new BufferedReader(new FileReader(saveName));
+                            String json = br.readLine().replace("\n", "").replace("\r","");
+                            String hash = br.readLine().replace("\n", "").replace("\r","");
+
+
+                            if ((json == null) || (hash == null)) {
+                                // show file is corrupt
+                                JOptionPane.showMessageDialog(new JFrame(), "File is corrupt! Exiting...");
+                                System.exit(0);
+                            } else {
+
+                                byte[] jsonBytes = json.getBytes("UTF-8");
+                                MessageDigest md = MessageDigest.getInstance("MD5");
+                                byte[] thedigest = md.digest(jsonBytes);
+
+                                if (hash.equals(DatatypeConverter.printHexBinary(thedigest))) {
+                                    // We have a match, read the file in
+                                    System.out.println("save match");
+                                    SaveState s = g.fromJson(json, SaveState.class);
+                                    GameboardStandard ga = new GameboardStandard(s);
+                                } else {
+                                    // show file is corrupt
+                                    JOptionPane.showMessageDialog(new JFrame(), "File is corrupt! Exiting...");
+                                    System.exit(0);
+                                }
+
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                             valid = false;

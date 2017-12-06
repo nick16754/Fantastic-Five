@@ -18,7 +18,7 @@ public class GameboardStrategic extends GameBoard implements MouseListener {
     }
 
     public GameboardStrategic(int players) {
-        super(players, "Standard");
+        super(players, "Strategic");
 
         StrategicInit();
     }
